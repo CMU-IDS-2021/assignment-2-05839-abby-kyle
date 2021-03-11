@@ -2,13 +2,12 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-st.title("Let's analyze some Penguin Data 🐧📊.")
+st.title("US Religious Beliefs 2014")
 
 @st.cache  # add caching so we load the data only once
 def load_data():
-    # Load the penguin data from https://github.com/allisonhorst/palmerpenguins.
-    penguins_url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/v0.1.0/inst/extdata/penguins.csv"
-    return pd.read_csv(penguins_url)
+    religion_data = "data/data.sav"
+    return pd.read_spss(religion_data)
 
 df = load_data()
 
@@ -16,7 +15,7 @@ st.write("Let's look at raw data in the Pandas Data Frame.")
 
 st.write(df)
 
-st.write("Hmm 🤔, is there some correlation between body mass and flipper length? Let's make a scatterplot with [Altair](https://altair-viz.github.io/) to find.")
+st.write("")
 
 chart = alt.Chart(df).mark_point().encode(
     x=alt.X("body_mass_g", scale=alt.Scale(zero=False)),
