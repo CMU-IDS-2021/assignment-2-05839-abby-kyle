@@ -11,7 +11,7 @@ def load_data():
 
 df = load_data()
 
-st.write("data types: {}".format(df.dtype()))
+st.write("data types: {}".format(df.dtypes()))
 
 st.write("Let's look at raw data in the Pandas Data Frame.")
 
