@@ -13,16 +13,16 @@ df = load_data()
 
 st.write("Let's look at raw data in the Pandas Data Frame.")
 
-st.write(df)
+# st.write(df)
 
 st.write("length is: {}".format(len(df)))
 
-chart = alt.Chart(df).mark_point().encode(
-    x=alt.X("body_mass_g", scale=alt.Scale(zero=False)),
-    y=alt.Y("flipper_length_mm", scale=alt.Scale(zero=False)),
-    color=alt.Y("species")
-).properties(
-    width=600, height=400
-).interactive()
+# chart = alt.Chart(df).mark_point().encode(
+#     x=alt.X("body_mass_g", scale=alt.Scale(zero=False)),
+#     y=alt.Y("flipper_length_mm", scale=alt.Scale(zero=False)),
+#     color=alt.Y("species")
+# ).properties(
+#     width=600, height=400
+# ).interactive()
 
-st.write(chart)
+# st.write(chart)
