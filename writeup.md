@@ -40,6 +40,10 @@ In this interactive visualization we seek to discover the manner in which religi
 
 In this interactive visualization we seek to discover the ways in which our religious faith correlates with other belief systems.
 
+**The Evolving Shape of Belief**
+
+In this interactive visualization we seek to hypothesize what the future distribution of religious belief might look like in the United States. This visualization is based on [analysis performed by Leah Libresco](https://fivethirtyeight.com/features/evangelical-protestants-are-the-biggest-winners-when-people-change-faiths/) from [FiveThirtyEight](https://fivethirtyeight.com/). In Ms. Libresco's original work, she computes a transition matrix that encodes the rates of transition between various religious faiths based on the results of the most recent Pew Research study as well as previous iterations. Here, we utilize this transition matrix to project possible future proportions of religious adherents. It is important to note, however, that this analysis is relatively simple, and lacks much of the complex modeling of social dynamics that would likely be required to make projections such as this one with any degree of long-term accuracy.
+
 ## Development
 
 _Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?_
