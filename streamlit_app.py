@@ -30,22 +30,22 @@ def getStatesVReligion(df, religiondict, statedict):
     statebase = df[['state']].copy()
     #Make Dummy variables so groupby works, format as needed
     statesbase = pd.get_dummies(statesbase.qe1)
-    statesbase = statesbase.drop(columns = columnstodrop)
+    #statesbase = statesbase.drop(columns = columnstodrop)
     statesbase = statesbase.rename(columns = religiondict)
     statesbase["State"] = statebase
     statesbase = statesbase.groupby("State").sum()
     #percent breakdown by religions
-    statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
+    #statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
     #percentage of population religious in some capacity
-    statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
-    statesvreligion["Percent Religious"] = statesreligious
+    #statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
+    #statesvreligion["Percent Religious"] = statesreligious
     #Get state names but keep ids
-    statesvreligion = statesvreligion.reset_index()
-    statesvreligion['id'] = statesvreligion['State']
-    statesvreligion = statesvreligion.set_index('State')
-    statesvreligion = statesvreligion.rename(index = statedict)
-    statesvreligion = statesvreligion.reset_index()
-    return statesvreligion
+    #statesvreligion = statesvreligion.reset_index()
+    #statesvreligion['id'] = statesvreligion['State']
+    #statesvreligion = statesvreligion.set_index('State')
+    #statesvreligion = statesvreligion.rename(index = statedict)
+    #statesvreligion = statesvreligion.reset_index()
+    return statesbase
 
 #Build a heat map based on how religious each state in the US is
 def usReligionChart(statesvreligion, states):
@@ -84,15 +84,16 @@ def usReligionChart(statesvreligion, states):
 df = load_data()
 #Set pandas for first visual
 statereligion = getStatesVReligion(df, religiondict, statedict)
+st.write(statereligion)
 #Create the religion heat map
 states = alt.topo_feature(data.us_10m.url, 'states')
-uschart = usReligionChart(statereligion, states)
+#uschart = usReligionChart(statereligion, states)
 
 #Create the Web App
 st.title("US Religious Beliefs 2014")
 st.write("Let's first look at how religious states are. This was determined by taking the data" +
     "from a 2014 Religious Landscape study conducted by Pew Research Center.")
-st.write(uschart)
+#st.write(uschart)
 # st.write(df)
 
 
