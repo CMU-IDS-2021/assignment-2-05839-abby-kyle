@@ -17,7 +17,7 @@ statedict = {1.0:'Alabama',2.0:'Alaska',4.0:'Arizona',5.0:'Arkansas',6.0:'Califo
 
 @st.cache  # add caching so we load the data only once
 def load_data():
-    religion_data = "assignment-2-05839-abby-kyle/data/data.sav"
+    religion_data = "data/data.sav"
     return pd.read_spss(religion_data, convert_categoricals=False)
 
 #Preps the Pandas dataframe for the US overlay chart
