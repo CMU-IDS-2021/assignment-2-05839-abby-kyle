@@ -12,7 +12,7 @@ TODO: Update screenshot
 
 The Shape of Belief
 
-Beliefs are one of the most important things in human life. They determine the way we think; how we act; who we are. In the history of human endeavor, few belief systems have exerted a greater impact on our collective consciousness than religious faith. Many of our traditions date back millennia and have evolved [word] with us through the years, simultaneously shaping and being shaped by our collective will. 
+Beliefs are one of the most important things in human life. They determine the way we think; how we act; who we are. In the history of human endeavor, few belief systems have exerted a greater impact on our collective consciousness than religious faith. Many of our traditions date back millennia and have evolved symbiotically with us through the years, simultaneously shaping and being shaped by our collective will. 
 
 In this project, we examine the results of The Pew Research Center's [2014 Religious Landscape Survey](https://www.pewforum.org/2015/05/12/americas-changing-religious-landscape/) to get a small glimpse into religious belief in the United States and its ongoing confrontation with modernity.
 
