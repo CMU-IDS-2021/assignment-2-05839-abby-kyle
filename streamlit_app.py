@@ -17,24 +17,28 @@ statedict = {1.0:'Alabama',2.0:'Alaska',4.0:'Arizona',5.0:'Arkansas',6.0:'Califo
 
 @st.cache  # add caching so we load the data only once
 def load_data():
-    religion_data = "data/data.sav"
-    return pd.read_spss(religion_data)
+    religion_data = "assignment-2-05839-abby-kyle/data/data.sav"
+    return pd.read_spss(religion_data, convert_categoricals=False)
 
 #Preps the Pandas dataframe for the US overlay chart
 def getStatesVReligion(df, religiondict, statedict):
+    columnstodrop = [21.0, 22.0, 23.0, 24.0, 25.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0,
+                 43.0, 44.0, 45.0,46.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,59.0,61.0,62.0,63.0,64.0,65.0,
+                 70.0,71.0,72.0,73.0,74.0,75.0,76.0,77.0,78.0,79.0,81.0,82.0,83.0,84.0,85.0,86.0,88.0,90.0,94.0,
+                 96.0, 994.0,999.0]
     statesbase=df[['qe1']].copy()
     statebase = df[['state']].copy()
     #Make Dummy variables so groupby works, format as needed
     statesbase = pd.get_dummies(statesbase.qe1)
-    #statesbase = statesbase.drop(columns = columnstodrop)
+    statesbase = statesbase.drop(columns = columnstodrop)
     statesbase = statesbase.rename(columns = religiondict)
     statesbase["State"] = statebase
     statesbase = statesbase.groupby("State").sum()
     #percent breakdown by religions
     statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
     #percentage of population religious in some capacity
-    #statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
-    #statesvreligion["Percent Religious"] = statesreligious
+    statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
+    statesvreligion["Percent Religious"] = statesreligious
     #Get state names but keep ids
     statesvreligion = statesvreligion.reset_index()
     statesvreligion['id'] = statesvreligion['State']
@@ -58,13 +62,13 @@ def usReligionChart(statesvreligion, states):
         from_=alt.LookupData(statesvreligion, 'id', ['Percent Religious', 'State', 'Protestant', 'Roman Catholic', 'Mormon',
                                                 'Orthodox', 'Jewish', 'Muslim', 'Buddist', 'Hindu', 'Atheist', 'Agnostic']),
     ).properties(
-        width=650,
-        height=400,
+        width=800,
+        height=550,
     ).project(
         type='albersUsa'
     ).properties(
         title= {"text": ["How Religious is the United States?"], 
-        "subtitle": ["A breakdown of how religious states and what religions they subscribe to. All values are percentages."],
+        "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to."],
            }
     )
 
@@ -80,17 +84,19 @@ def usReligionChart(statesvreligion, states):
 df = load_data()
 #Set pandas for first visual
 statereligion = getStatesVReligion(df, religiondict, statedict)
-st.write(statereligion)
 #Create the religion heat map
 states = alt.topo_feature(data.us_10m.url, 'states')
-#uschart = usReligionChart(statereligion, states)
+uschart = usReligionChart(statereligion, states)
 
 #Create the Web App
 st.title("US Religious Beliefs 2014")
 st.write("Let's first look at how religious states are. This was determined by taking the data" +
     "from a 2014 Religious Landscape study conducted by Pew Research Center.")
-#st.write(uschart)
-# st.write(df)
+st.write(uschart)
+
+st.subheader('Chart by State')
+st.write('TODO make individual bar charts by state using the data that you get when hovering. Make'
++' selection by the user. (maybe add regions and or multi state selection)')
 
 
 
