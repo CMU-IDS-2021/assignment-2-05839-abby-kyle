@@ -33,8 +33,8 @@ def getStatesVReligion(df, religiondict, statedict):
     #percent breakdown by religions
     statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
     #percentage of population religious in some capacity
-    statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
-    statesvreligion["Percent Religious"] = statesreligious
+    #statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
+    #statesvreligion["Percent Religious"] = statesreligious
     #Get state names but keep ids
     statesvreligion = statesvreligion.reset_index()
     statesvreligion['id'] = statesvreligion['State']
