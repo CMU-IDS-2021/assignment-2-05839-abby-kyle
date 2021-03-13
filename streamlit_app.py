@@ -22,10 +22,6 @@ def load_data():
 
 #Preps the Pandas dataframe for the US overlay chart
 def getStatesVReligion(df, religiondict, statedict):
-    columnstodrop = [21.0, 22.0, 23.0, 24.0, 25.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0,
-                 43.0, 44.0, 45.0,46.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,59.0,61.0,62.0,63.0,64.0,65.0,
-                 70.0,71.0,72.0,73.0,74.0,75.0,76.0,77.0,78.0,79.0,81.0,82.0,83.0,84.0,85.0,86.0,88.0,90.0,94.0,
-                 96.0, 994.0,999.0]
     statesbase=df[['qe1']].copy()
     statebase = df[['state']].copy()
     #Make Dummy variables so groupby works, format as needed
@@ -35,17 +31,17 @@ def getStatesVReligion(df, religiondict, statedict):
     statesbase["State"] = statebase
     statesbase = statesbase.groupby("State").sum()
     #percent breakdown by religions
-    #statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
+    statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
     #percentage of population religious in some capacity
-    #statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
-    #statesvreligion["Percent Religious"] = statesreligious
+    statesreligious = statesvreligion.drop(columns = ['Atheist', 'Nothing', "Don't Know"]).sum(axis=1)
+    statesvreligion["Percent Religious"] = statesreligious
     #Get state names but keep ids
-    #statesvreligion = statesvreligion.reset_index()
-    #statesvreligion['id'] = statesvreligion['State']
-    #statesvreligion = statesvreligion.set_index('State')
-    #statesvreligion = statesvreligion.rename(index = statedict)
-    #statesvreligion = statesvreligion.reset_index()
-    return statesbase
+    statesvreligion = statesvreligion.reset_index()
+    statesvreligion['id'] = statesvreligion['State']
+    statesvreligion = statesvreligion.set_index('State')
+    statesvreligion = statesvreligion.rename(index = statedict)
+    statesvreligion = statesvreligion.reset_index()
+    return statesvreligion
 
 #Build a heat map based on how religious each state in the US is
 def usReligionChart(statesvreligion, states):
