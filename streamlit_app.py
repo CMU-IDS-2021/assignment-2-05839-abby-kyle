@@ -3,6 +3,8 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data
 
+st.set_page_config(layout="wide")
+
 religiondict = {1.0 : "Protestant", 2.0 : "Roman Catholic", 3.0 : "Mormon", 4.0:"Orthodox", 5.0:"Jewish", 6.0:"Muslim", 7.0:"Buddist",
                 8.0:"Hindu", 9.0:"Atheist", 10.0:"Agnostic", 12.0:"Nothing", 13.0:"Christian", 
                 14.0:"Unitarian", 15.0:"Jehovah's Witness", 99.0:"Don't Know"}
@@ -67,14 +69,14 @@ def usReligionChart(statesvreligion, states):
     ).project(
         type='albersUsa'
     ).properties(
-        title= {"text": ["How Religious is the United States?"], 
-        "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to."],
+        title= {"text": ["How Religious are the United States?"], 
+        "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to. All values are percentages"],
            }
     )
 
-    uschart.configure_title(
-        fontSize=25,
-        font='Times New Roman',
+    uschart = uschart.configure_title(
+        fontSize=30,
+        #font='Times New Roman',
     )
     return uschart
 
@@ -93,6 +95,18 @@ st.title("US Religious Beliefs 2014")
 st.write("Let's first look at how religious states are. This was determined by taking the data" +
     "from a 2014 Religious Landscape study conducted by Pew Research Center.")
 st.write(uschart)
+
+#Sidebar
+st.sidebar.header("Look at the Data")
+st.sidebar.subheader("How Religious are the United States?")
+if st.sidebar.checkbox('Show the Religous data for each state'):
+    st.subheader('Breakdown of States and their Religious Make-up')
+    st.write('By clicking on the column titles, you can discover which religions are most prominent in '+
+    'different states and find states and regions that have larger populations of certain sects. For ' +
+    'example, if you click on "Mormon" you will find that Utah and the surrounding states have the highest ' +
+    'percent of Mormons with respect to the other religions. All values are percentages.')
+    statedf = statereligion.drop(columns = ['Percent Religious', 'id']).set_index('State').apply(lambda x: x*100)
+    st.write(statedf)
 
 st.subheader('Chart by State')
 st.write('TODO make individual bar charts by state using the data that you get when hovering. Make'
