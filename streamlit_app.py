@@ -58,7 +58,7 @@ religiondict = {
     13.0: "Christian", 
     14.0: "Unitarian",
     15.0: "Jehovah's Witness",
-    99.0: "Don't Know"
+    99.0: "Unaffiliated"
 }
 
 statedict = {
@@ -146,7 +146,7 @@ def prepare_states(df, religiondict, statedict):
     statesvreligion = statesbase.div(statesbase.sum(axis=1), axis=0) 
     
     # Percentage of population religious in some capacity
-    statesreligious = statesvreligion.drop(columns = ["Atheist", "Nothing", "Don't Know"]).sum(axis=1)
+    statesreligious = statesvreligion.drop(columns = ["Atheist", "Nothing", "Unaffiliated"]).sum(axis=1)
     statesvreligion["Percent Religious"] = statesreligious
     
     # Get state names but keep ids
