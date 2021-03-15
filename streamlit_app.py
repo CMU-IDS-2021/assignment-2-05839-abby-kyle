@@ -3,10 +3,9 @@
 #
 # Abby Vorhaus, Kyle Dotterrer
 
-import json
-import streamlit as st
 import pandas as pd
 import altair as alt
+import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
@@ -15,12 +14,15 @@ DATA_PATH = "data/"
 # The relative path to the primary dataset
 PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
 # The relative path to the patterns dataset
-PATTERNS_DATA_PATH = DATA_PATH + "patterns.csv"
+FUTURE_DATA_PATH = DATA_PATH + "future.csv"
 
-st.set_page_config(layout="wide")
+# The default height for our visualizations
+DEFAULT_WIDTH = 800
+# The default height for our visualizations
+DEFAULT_HEIGHT = 550
 
 # The df column headers for patterns dataset
-PATTERNS_COLUMN_HEADERS = [
+FUTURE_COLUMN_HEADERS = [
     "Buddhist", 
     "Catholic", 
     "Evangel Prot", 
@@ -34,17 +36,79 @@ PATTERNS_COLUMN_HEADERS = [
     "Orthodox Christian", 
     "Unaffiliated"]
 
-religiondict = {1.0 : "Protestant", 2.0 : "Roman Catholic", 3.0 : "Mormon", 4.0:"Orthodox", 5.0:"Jewish", 6.0:"Muslim", 7.0:"Buddist",
-                8.0:"Hindu", 9.0:"Atheist", 10.0:"Agnostic", 12.0:"Nothing", 13.0:"Christian", 
-                14.0:"Unitarian", 15.0:"Jehovah's Witness", 99.0:"Don't Know"}
-statedict = {1.0:'Alabama',2.0:'Alaska',4.0:'Arizona',5.0:'Arkansas',6.0:'California',8.0:'Colorado',9.0:'Connecticut',
-             10.0: 'Delaware',11.0:'District of Columbia', 12.0:'Florida',13.0:'Georgia',15.0:'Hawaii',16.0:'Idaho',17.0:'Illinois',18.0:'Indiana',
-             19.0:'Iowa',20.0:'Kansas',21.0:'Kentucky',22.0:'Louisiana',23.0:'Maine',24.0:'Maryland',25.0:'Massachusetts',
-             26.0:'Michigan',27.0:'Minnesota',28.0:'Mississippi',29.0:'Missouri',30.0:'Montana',31.0:'Nebraska',32.0:'Nevada',
-             33.0:'New Hampshire',34.0:'New Jersey',35.0:'New Mexico',36.0:'New York',37.0:'North Carolina',
-             38.0:'North Dakota',39.0:'Ohio',40.0:'Oklahoma',41.0:'Oregon',42.0:'Pennsylvania',44.0:'Rhode Island',
-             45.0:'South Carolina',46.0:'South Dakota',47.0:'Tennessee',48.0:'Texas',49.0:'Utah',50.0:'Vermont',
-            51.0:'Virginia',53.0:'Washington',54.0:'West Virginia',55.0:'Wisconsin',56.0:'Wyoming'}
+religiondict = {
+    1.0: "Protestant",
+    2.0: "Roman Catholic",
+    3.0: "Mormon",
+    4.0: "Orthodox",
+    5.0: "Jewish",
+    6.0: "Muslim",
+    7.0: "Buddist",
+    8.0: "Hindu",
+    9.0: "Atheist",
+    10.0: "Agnostic",
+    12.0: "Nothing",
+    13.0: "Christian", 
+    14.0: "Unitarian",
+    15.0: "Jehovah's Witness",
+    99.0: "Don't Know"
+}
+
+statedict = {
+    1.0: "Alabama",
+    2.0: "Alaska",
+    4.0: "Arizona",
+    5.0: "Arkansas",
+    6.0: "California",
+    8.0: "Colorado",
+    9.0: "Connecticut",
+    10.0: "Delaware",
+    11.0: "District of Columbia",
+    12.0: "Florida",
+    13.0: "Georgia",
+    15.0: "Hawaii",
+    16.0: "Idaho",
+    17.0: "Illinois",
+    18.0: "Indiana",
+    19.0: "Iowa",
+    20.0: "Kansas",
+    21.0: "Kentucky",
+    22.0: "Louisiana",
+    23.0: "Maine",
+    24.0: "Maryland",
+    25.0: "Massachusetts",
+    26.0: "Michigan",
+    27.0: "Minnesota",
+    28.0: "Mississippi",
+    29.0: "Missouri",
+    30.0: "Montana",
+    31.0: "Nebraska",
+    32.0: "Nevada",
+    33.0: "New Hampshire",
+    34.0: "New Jersey",
+    35.0: "New Mexico",
+    36.0: "New York",
+    37.0: "North Carolina",
+    38.0: "North Dakota",
+    39.0: "Ohio",
+    40.0: "Oklahoma",
+    41.0: "Oregon",
+    42.0: "Pennsylvania",
+    44.0: "Rhode Island",
+    45.0: "South Carolina",
+    46.0: "South Dakota",
+    47.0: "Tennessee",
+    48.0: "Texas",
+    49.0: "Utah",
+    50.0: "Vermont",
+    51.0: "Virginia",
+    53.0: "Washington",
+    54.0: "West Virginia",
+    55.0: "Wisconsin",
+    56.0: "Wyoming"
+}
+
+st.set_page_config(layout="wide")
 
  # Add caching so we load the data only once
 @st.cache 
@@ -52,9 +116,9 @@ def load_primary_data():
     return pd.read_spss(PRIMARY_DATA_PATH, convert_categoricals=False)
 
 @st.cache
-def load_patterns_data():
-    df = pd.read_csv(PATTERNS_DATA_PATH)
-    df.columns = PATTERNS_COLUMN_HEADERS
+def load_future_data():
+    df = pd.read_csv(FUTURE_DATA_PATH)
+    df.columns = FUTURE_COLUMN_HEADERS
     return df
 
 # Prepares the Pandas dataframe for the US overlay chart
@@ -106,25 +170,51 @@ def render_states_viz(statesvreligion):
         color=alt.Color("Percent Religious:Q", scale=alt.Scale(scheme="inferno", reverse=True))
     ).transform_lookup(
         lookup="id",
-        from_=alt.LookupData(statesvreligion, "id", ["Percent Religious", "State", "Protestant", "Roman Catholic", "Mormon",
-                                                "Orthodox", "Jewish", "Muslim", "Buddist", "Hindu", "Atheist", "Agnostic"]),
+        from_=alt.LookupData(
+            statesvreligion, 
+            "id", 
+            [
+                "Percent Religious",
+                "State",
+                "Protestant",
+                "Roman Catholic",
+                "Mormon",
+                "Orthodox",
+                "Jewish",
+                "Muslim", 
+                "Buddist", 
+                "Hindu", 
+                "Atheist", 
+                "Agnostic"
+            ]),
     ).properties(
-        width=800,
-        height=550,
+        width=DEFAULT_WIDTH,
+        height=DEFAULT_HEIGHT,
     ).project(
         type="albersUsa"
     ).properties(
-        title= {"text": ["How Religious are the United States?"], 
-        "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to. All values are percentages"],
-           }
+        title= {
+            "text": ["How Religious are the United States?"], 
+            "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to. All values are percentages"],
+        }
     )
 
     uschart = uschart.configure_title(fontSize=30)
     return uschart
 
+def render_future_viz(df):
+    source = data.iowa_electricity()
+
+    future = alt.Chart(source).mark_area().encode(
+        x="year:T",
+        y=alt.Y("net_generation:Q", stack="normalize"),
+        color="source:N")
+    return future
+
 def main():
     # Load the input data for all questions
     df = load_primary_data()
+    df_patterns = load_future_data()
     
     # Set pandas for first visual
     statereligion = prepare_states(df, religiondict, statedict)
@@ -157,11 +247,13 @@ def main():
         st.write(statedf)
 
     st.subheader("Chart by State")
-    
+
     # st.write('TODO make individual bar charts by state using the data that you get when hovering. Make'
     # +' selection by the user. (maybe add regions and or multi state selection)')
 
     st.subheader("The Future of Belief in the United States")
+
+    st.write(render_future_viz(df_patterns))
 
 if __name__ == "__main__":
     main()
