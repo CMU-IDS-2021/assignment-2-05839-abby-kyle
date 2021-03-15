@@ -1,4 +1,4 @@
-# patterns.py 
+# future.py 
 #
 # Code to predict the future proportions of religious 
 # adherents in the United States based on current proportions
@@ -14,7 +14,7 @@ import pandas as pd
 FILENAME = "patterns.csv"
 
 # The religions labels
-RELIGIONS = [
+FUTURE_COLUMN_HEADERS = [
     "Buddhist", 
     "Catholic", 
     "Evangel Prot", 
@@ -27,6 +27,12 @@ RELIGIONS = [
     "Muslim", 
     "Orthodox Christian", 
     "Unaffiliated"]
+
+# The df column headers after we transform
+FUTURE_TRANSFORMED_COLUMN_HEADERS = [
+    "Year",
+    "Religion",
+    "Count"]
 
 # The religions ransition matrix 
 TRANSITION_MATRIX = np.matrix(((0.390296314, 0.027141947, 0.06791021, 0.001857564, 0, 0, 0.011166082, 0.059762879, 0, 0, 0, 0.396569533),
@@ -45,19 +51,14 @@ TRANSITION_MATRIX = np.matrix(((0.390296314, 0.027141947, 0.06791021, 0.00185756
 # The fertility array
 FERTILITY_ARRAY = np.matrix(((2.1, 2.3, 2.3, 2.1, 2.5, 2.1, 2, 1.9, 3.4, 2.8, 2.1, 1.7)))
 
-def write_row(csv, matrix):
-    arr = np.asarray(matrix[0])[0]
-    row = ','.join([str(a) for a in arr]) + '\n'
-    csv.write(row)
-
-def write_csv(csv):
+def generate_input_data():
     # Initial distribution of religions in US
     first = np.matrix([.007, .208, .254, .007, .065, .008, .019, .147, .016, .009, .005, .228])
 
     # Normalize to sum to 100%
     current = first / np.sum(first)
-    write_row(csv, current)
 
+    df = pd.DataFrame()
     for _ in range(0, 100):            
         # Apply transition matrix to current distribution
         current = current * TRANSITION_MATRIX
@@ -70,12 +71,30 @@ def write_csv(csv):
         
         # Normalize to 100%
         current = current / np.sum(current)
-        write_row(csv, current)
+
+        df = df.append(pd.DataFrame(current), ignore_index=True)
+
+    df.columns = FUTURE_COLUMN_HEADERS
+    return df
+
+def transform_input_data(df):
+    new = pd.DataFrame()
+    for year, _ in enumerate(df.iterrows()):
+        for label in FUTURE_COLUMN_HEADERS:
+            new = new.append(pd.DataFrame(np.matrix([year, label, np.int64(df.iloc[year][label]*300000000)])))
+    new.columns = FUTURE_TRANSFORMED_COLUMN_HEADERS
+    return new
 
 def main():
+    print("Generating...")
+    df = generate_input_data()
+
+    print("Transforming...")
+    df = transform_input_data(df)
+
     print("Writing...")
-    with open(FILENAME, "w") as csv:
-        write_csv(csv)
+    df.to_csv("future.csv")
+
     print("Done!")
 
 if __name__ == "__main__":

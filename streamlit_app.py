@@ -3,6 +3,7 @@
 #
 # Abby Vorhaus, Kyle Dotterrer
 
+import numpy as np
 import pandas as pd
 import altair as alt
 import streamlit as st
@@ -35,6 +36,12 @@ FUTURE_COLUMN_HEADERS = [
     "Muslim", 
     "Orthodox Christian", 
     "Unaffiliated"]
+
+# The df column headers after we transform
+FUTURE_TRANSFORMED_COLUMN_HEADERS = [
+    "Year",
+    "Religion",
+    "Proportion"]
 
 religiondict = {
     1.0: "Protestant",
@@ -117,9 +124,24 @@ def load_primary_data():
 
 @st.cache
 def load_future_data():
+    # Read the original data
     df = pd.read_csv(FUTURE_DATA_PATH)
     df.columns = FUTURE_COLUMN_HEADERS
-    return df
+
+    s = ["Buddhist", 
+    "Catholic", 
+    "Evangel Prot"]
+
+    # Construct a new dataframe in the format we need
+    # NOTE: I know we can do this with a pivot table,
+    # but I am so sleep-deprived this is what we got
+    new = pd.DataFrame()
+    for year, _ in enumerate(df.iterrows()):
+        for label in FUTURE_COLUMN_HEADERS:
+            if label in s:
+                new = new.append(pd.DataFrame(np.matrix([year, label, df.iloc[year][label]] * 300000000)))
+    new.columns = FUTURE_TRANSFORMED_COLUMN_HEADERS
+    return new
 
 # Prepares the Pandas dataframe for the US overlay chart
 def prepare_states(df, religiondict, statedict):
@@ -204,17 +226,25 @@ def render_states_viz(statesvreligion):
 
 def render_future_viz(df):
     source = data.iowa_electricity()
+    st.write(source)
 
-    future = alt.Chart(source).mark_area().encode(
-        x="year:T",
-        y=alt.Y("net_generation:Q", stack="normalize"),
-        color="source:N")
+    future = alt.Chart(df).mark_area().encode(
+        x="Year:T",
+        y=alt.Y("Proportion:Q", stack="normalize"),
+        color="Religion:N"
+    ).properties(
+        width=DEFAULT_WIDTH,
+        height=DEFAULT_HEIGHT
+    )
+
     return future
 
 def main():
-    # Load the input data for all questions
+    # Load the primary input dataset
     df = load_primary_data()
-    df_patterns = load_future_data()
+
+    # Load the future input dataset
+    df_future = load_future_data()
     
     # Set pandas for first visual
     statereligion = prepare_states(df, religiondict, statedict)
@@ -253,7 +283,8 @@ def main():
 
     st.subheader("The Future of Belief in the United States")
 
-    st.write(render_future_viz(df_patterns))
+    st.write(render_future_viz(df_future))
+    st.write(df_future)
 
 if __name__ == "__main__":
     main()
