@@ -274,6 +274,35 @@ def render_geography_chapter(df):
     st.subheader("Chart by State")
 
 # -----------------------------------------------------------------------------
+# Chapter: Connection
+# -----------------------------------------------------------------------------
+
+def render_connection_chapter(df):
+    """
+    Render the 'connection' chapter.
+    """
+
+    '''
+    ---
+    # How Our Beliefs Shape Us
+    '''
+
+# -----------------------------------------------------------------------------
+# Chapter: Evolution
+# -----------------------------------------------------------------------------
+
+def render_evolution_chapter(df):
+    """
+    Render the 'evolution' chapter.
+    """
+
+    '''
+    ---
+    # How Our Beliefs Evolve With Us
+    '''
+
+
+# -----------------------------------------------------------------------------
 # Chapter: Future
 # -----------------------------------------------------------------------------
 
@@ -308,7 +337,7 @@ def render_future_chapter(df):
 
     '''
     ---
-    # The Shape of our Future Beliefs 
+    # The Shape of Our Future Beliefs 
 
     Narrative
     '''
@@ -330,9 +359,11 @@ def main():
     # Chapter 1: Geography
     render_geography_chapter(df_primary)
 
-    # Chapter 2
+    # Chapter 2: Connection
+    render_connection_chapter(df_primary)
 
-    # Chapter 3
+    # Chapter 3: Evolution
+    render_evolution_chapter(df_primary)
 
     # Chapter 4: Future
     render_future_chapter(df_future)
