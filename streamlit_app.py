@@ -306,6 +306,24 @@ def render_evolution_chapter(df):
 # Chapter: Future
 # -----------------------------------------------------------------------------
 
+def count_for_label_at_year(df, label, year):
+    tmp = df[df["Religion"].str.contains(label)]
+    tmp = tmp[tmp["Year"] == year]
+    return tmp.iloc[0]["Count"]
+
+def get_diff_for_label(df, label):
+  return int(df[df["Religion"].str.contains(label)]["Delta"])
+
+def preprocess_for_diff_viz(df):
+    new = pd.DataFrame()
+    for label in FUTURE_COLUMN_HEADERS:
+        start = count_for_label_at_year(df, label, 0)
+        stop = count_for_label_at_year(df, label, 99)
+        diff = stop - start
+        new = new.append(pd.DataFrame(np.matrix([label, diff])))
+    new.columns = ["Religion", "Delta"]
+    return new
+
 # Render the stacked area chart that illustrates growth
 def render_future_area_viz(df):
     # Make a selection for interactive legend
@@ -327,8 +345,27 @@ def render_future_area_viz(df):
     return future
 
 # Render the bar chart that illustrates gain / loss for each religion
-def render_future_diff_viz():
-    pass
+def render_future_diff_viz(df):
+    # Do some preprocessing
+    pre = preprocess_for_diff_viz(df)
+
+    order = [label for label in pre["Religion"]]
+    order = sorted(order, key=lambda x: get_diff_for_label(pre, x))
+
+    # Render the chart
+    chart = alt.Chart(pre).mark_bar().encode(
+        x=alt.X("Religion:N", sort=order),
+        y="Delta:Q",
+        color=alt.condition(
+            alt.datum.Delta > 0,
+            alt.value("green") , # The positive color
+            alt.value("red"))    # The negative color
+    ).properties(
+        width=DEFAULT_WIDTH,
+        height=DEFAULT_HEIGHT
+    )
+
+    return chart
 
 def render_future_chapter(df):
     """
@@ -343,6 +380,7 @@ def render_future_chapter(df):
     '''
 
     st.write(render_future_area_viz(df))
+    st.write(render_future_diff_viz(df))
     st.write(df)
 
 # -----------------------------------------------------------------------------
