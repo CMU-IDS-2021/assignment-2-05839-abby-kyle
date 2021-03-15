@@ -117,6 +117,10 @@ statedict = {
 
 st.set_page_config(layout="wide")
 
+# -----------------------------------------------------------------------------
+# Data Loading
+# -----------------------------------------------------------------------------
+
  # Add caching so we load the data only once
 @st.cache 
 def load_primary_data():
@@ -127,6 +131,27 @@ def load_future_data():
     # Read the original data
     return pd.read_csv(FUTURE_DATA_PATH)
 
+# -----------------------------------------------------------------------------
+# Top-Level
+# -----------------------------------------------------------------------------
+
+def render_introduction_content():
+    """
+    Render the introductory content.
+    """
+
+    '''
+    # The Shape of Belief
+
+    ### Beliefs are one of the most important things in human life. They determine _the way we think_; _how we act_; _who we are_. 
+
+    In the history of human endeavor, few belief systems have exerted a greater impact on our collective consciousness than religious faith. Many of our traditions date back millennia and have evolved symbiotically with us through the years, simultaneously shaping and being shaped by our collective will. 
+    '''
+
+# -----------------------------------------------------------------------------
+# Chapter: Geography
+# -----------------------------------------------------------------------------
+
 # Prepares the Pandas dataframe for the US overlay chart
 def prepare_states(df, religiondict, statedict):
     columnstodrop = [21.0, 22.0, 23.0, 24.0, 25.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0,
@@ -135,6 +160,7 @@ def prepare_states(df, religiondict, statedict):
                  96.0, 994.0,999.0]
     statesbase=df[["qe1"]].copy()
     statebase = df[["state"]].copy()
+    
     # Make Dummy variables so groupby works, format as needed
     statesbase = pd.get_dummies(statesbase.qe1)
     statesbase = statesbase.drop(columns = columnstodrop)
@@ -208,36 +234,21 @@ def render_states_viz(statesvreligion):
     uschart = uschart.configure_title(fontSize=30)
     return uschart
 
-def render_future_viz(df):
-    source = data.iowa_electricity()
-    st.write(source)
+def render_geography_chapter(df):
+    """
+    Render the 'geography' chapter.
+    """
 
-    future = alt.Chart(df).mark_area().encode(
-        x="Year:T",
-        y=alt.Y("Count:Q", stack="normalize"),
-        color="Religion:N"
-    ).properties(
-        width=DEFAULT_WIDTH,
-        height=DEFAULT_HEIGHT
-    )
+    '''
+    ---
+    # The Geography of Belief
 
-    return future
-
-def main():
-    # Load the primary input dataset
-    df = load_primary_data()
-
-    # Load the future input dataset
-    df_future = load_future_data()
+    Let's first look at how religious states are.
+    '''
     
     # Set pandas for first visual
     statereligion = prepare_states(df, religiondict, statedict)
-    
-    # Create the top-level content
-    st.title("US Religious Beliefs 2014")
-    st.write("Let's first look at how religious states are. This was determined by taking the data" +
-        "from a 2014 Religious Landscape study conducted by Pew Research Center.")
-    
+
     # Render the states visualization
     st.write(render_states_viz(statereligion))
 
@@ -262,13 +273,73 @@ def main():
 
     st.subheader("Chart by State")
 
-    # st.write('TODO make individual bar charts by state using the data that you get when hovering. Make'
-    # +' selection by the user. (maybe add regions and or multi state selection)')
+# -----------------------------------------------------------------------------
+# Chapter: Future
+# -----------------------------------------------------------------------------
 
-    st.subheader("The Future of Belief in the United States")
+# Render the stacked area chart that illustrates growth
+def render_future_area_viz(df):
+    # Make a selection for interactive legend
+    selection = alt.selection_multi(fields=["Religion"], bind="legend")
 
-    st.write(render_future_viz(df_future))
-    st.write(df_future)
+    # Make the chart
+    future = alt.Chart(df).mark_area().encode(
+        x="Year:T",
+        y=alt.Y("Count:Q", stack="normalize"),
+        color="Religion:N",
+        opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+    ).properties(
+        width=DEFAULT_WIDTH,
+        height=DEFAULT_HEIGHT
+    ).add_selection(
+        selection
+    )
+
+    return future
+
+# Render the bar chart that illustrates gain / loss for each religion
+def render_future_diff_viz():
+    pass
+
+def render_future_chapter(df):
+    """
+    Render the 'future' chapter.
+    """
+
+    '''
+    ---
+    # The Shape of our Future Beliefs 
+
+    Narrative
+    '''
+
+    st.write(render_future_area_viz(df))
+    st.write(df)
+
+# -----------------------------------------------------------------------------
+# Main
+# -----------------------------------------------------------------------------
+
+def main():
+    # Load the datasets
+    df_primary = load_primary_data()
+    df_future = load_future_data()
+    
+    render_introduction_content()
+
+    # Chapter 1: Geography
+    render_geography_chapter(df_primary)
+
+    # Chapter 2
+
+    # Chapter 3
+
+    # Chapter 4: Future
+    render_future_chapter(df_future)
+
+# -----------------------------------------------------------------------------
+# Application Entry Point
+# -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()
