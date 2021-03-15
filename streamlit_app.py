@@ -115,6 +115,18 @@ statedict = {
     56.0: "Wyoming"
 }
 
+regiondict = {
+    'Northeast': ["Maine", "Massachusetts", "Rhode Island", "Connecticut", "New Hampshire", "Vermont", "New York", 
+    "Pennsylvania", "New Jersey", "Delaware", "Maryland"],
+    'Southeast': ["West Virginia", "Virginia", "Kentucky", "Tennessee", "North Carolina", "South Carolina", "Georgia",
+    "Alabama", "Mississippi", "Arkansas", "Louisiana", "Florida"],
+    'Midwest': ["Ohio", "Indiana", "Michigan", "Illinois", "Missouri", "Wisconsin", "Minnesota", "Iowa", "Kansas",
+    "Nebraska", "South Dakota", "North Dakota"],
+    'Southwest': ["Texas", "Oklahoma", "New Mexico", "Arizona"],
+    'West': ["Colorado", "Wyoming", "Montana", "Idaho", "Washington", "Oregon", "Utah", "Nevada", "California", "Alaska",
+    "Hawaii"]
+}
+
 st.set_page_config(layout="wide")
 
 # -----------------------------------------------------------------------------
@@ -257,11 +269,13 @@ def render_geography_chapter(df):
     # Render the states visualization
     st.write(render_states_viz(statereligion))
 
+    #-------------------------------------------------------------------
     # Sidebar
+    #-------------------------------------------------------------------
     st.sidebar.subheader("The Geography of Belief")
 
     # Selectively render the data for the states visualization
-    if st.sidebar.checkbox("Show the Religious data for each state"):
+    if st.sidebar.checkbox("Show the religious data for each state as a table"):
         st.subheader( "Breakdown of States and their Religious Make-up")
         st.write("By clicking on the column titles, you can "
         + "discover which religions are most prominent in " 
@@ -275,6 +289,9 @@ def render_geography_chapter(df):
             columns = ["Percent Religious", "id"]).set_index("State").apply(lambda x: x*100)
         st.write(statedf)
 
+    st.sidebar.write("Compare the religious breakdowns for each state. You can select by either states or regions, and you can select multiple options.")
+    st.sidebar.multiselect("State", statereligion, key='State')
+    st.sidebar.multiselect("Region", ["Midwest", "Northeast", "Southeast", "Southwest", "West"])
     st.subheader("Chart by State")
 
 # -----------------------------------------------------------------------------
