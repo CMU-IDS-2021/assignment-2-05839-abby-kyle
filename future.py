@@ -13,6 +13,10 @@ import pandas as pd
 # The name of the output file
 FILENAME = "patterns.csv"
 
+# Current and projected US population
+US_POPULATION_2020 = 300000000
+US_POPULATION_2120 = 550000000
+
 # The religions labels
 FUTURE_COLUMN_HEADERS = [
     "Buddhist", 
@@ -78,10 +82,11 @@ def generate_input_data():
     return df
 
 def transform_input_data(df):
-    new = pd.DataFrame()
+    new = pd.DataFrame()    
+    pop = np.linspace(US_POPULATION_2020, US_POPULATION_2120, 100)
     for year, _ in enumerate(df.iterrows()):
         for label in FUTURE_COLUMN_HEADERS:
-            new = new.append(pd.DataFrame(np.matrix([year, label, np.int64(df.iloc[year][label]*300000000)])))
+            new = new.append(pd.DataFrame(np.matrix([year, label, np.int64(df.iloc[year][label]*pop[year])])))
     new.columns = FUTURE_TRANSFORMED_COLUMN_HEADERS
     return new
 

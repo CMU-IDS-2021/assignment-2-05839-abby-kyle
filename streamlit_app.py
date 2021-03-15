@@ -125,23 +125,7 @@ def load_primary_data():
 @st.cache
 def load_future_data():
     # Read the original data
-    df = pd.read_csv(FUTURE_DATA_PATH)
-    df.columns = FUTURE_COLUMN_HEADERS
-
-    s = ["Buddhist", 
-    "Catholic", 
-    "Evangel Prot"]
-
-    # Construct a new dataframe in the format we need
-    # NOTE: I know we can do this with a pivot table,
-    # but I am so sleep-deprived this is what we got
-    new = pd.DataFrame()
-    for year, _ in enumerate(df.iterrows()):
-        for label in FUTURE_COLUMN_HEADERS:
-            if label in s:
-                new = new.append(pd.DataFrame(np.matrix([year, label, df.iloc[year][label]] * 300000000)))
-    new.columns = FUTURE_TRANSFORMED_COLUMN_HEADERS
-    return new
+    return pd.read_csv(FUTURE_DATA_PATH)
 
 # Prepares the Pandas dataframe for the US overlay chart
 def prepare_states(df, religiondict, statedict):
@@ -230,7 +214,7 @@ def render_future_viz(df):
 
     future = alt.Chart(df).mark_area().encode(
         x="Year:T",
-        y=alt.Y("Proportion:Q", stack="normalize"),
+        y=alt.Y("Count:Q", stack="normalize"),
         color="Religion:N"
     ).properties(
         width=DEFAULT_WIDTH,
