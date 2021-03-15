@@ -10,7 +10,7 @@ import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
-DATA_PATH = "data/"
+DATA_PATH = "assignment-2-05839-abby-kyle/data/"
 
 # The relative path to the primary dataset
 PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
@@ -147,6 +147,8 @@ def render_introduction_content():
 
     In the history of human endeavor, few belief systems have exerted a greater impact on our collective consciousness than religious faith. Many of our traditions date back millennia and have evolved symbiotically with us through the years, simultaneously shaping and being shaped by our collective will. 
     '''
+    st.sidebar.header("Digging Deeper")
+    st.sidebar.write("We are only grazing the surface with our main graphics, but you can keep exploring! Below you will find options for each section that will allow you to explore the data.")
 
 # -----------------------------------------------------------------------------
 # Chapter: Geography
@@ -243,7 +245,10 @@ def render_geography_chapter(df):
     ---
     # The Geography of Belief
 
-    Let's first look at how religious states are.
+    Let's first look at how religious states are. Here we define religious to be an individual that claims to subscribe to a belief system that has some form
+    of a or supernatural or higher power. The heat map indicates the percentage by state. You can hover over individual states to see the
+    actual values as a percentage as well as the percentage in that state that subscribe to a subset of major religions. For more options, navigate to
+    the sidebar under "The Geography of Belief".
     '''
     
     # Set pandas for first visual
@@ -253,8 +258,7 @@ def render_geography_chapter(df):
     st.write(render_states_viz(statereligion))
 
     # Sidebar
-    st.sidebar.header("Look at the Data")
-    st.sidebar.subheader("How Religious are the United States?")
+    st.sidebar.subheader("The Geography of Belief")
 
     # Selectively render the data for the states visualization
     if st.sidebar.checkbox("Show the Religious data for each state"):
@@ -286,6 +290,8 @@ def render_connection_chapter(df):
     ---
     # How Our Beliefs Shape Us
     '''
+    # Sidebar
+    st.sidebar.subheader("How Our Beliefs Shape Us")
 
 # -----------------------------------------------------------------------------
 # Chapter: Evolution
@@ -382,6 +388,7 @@ def render_future_chapter(df):
     st.write(render_future_area_viz(df))
     st.write(render_future_diff_viz(df))
     st.write(df)
+
 
 # -----------------------------------------------------------------------------
 # Main
