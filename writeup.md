@@ -6,7 +6,7 @@ _CMU 05-839: Interactive Data Science_
 
 _16 March 2021_
 
-TODO: Update screenshot
+![](streamlit_app_capture.PNG)
 
 ## Abstract
 
