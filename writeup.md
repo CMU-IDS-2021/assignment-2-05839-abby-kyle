@@ -65,4 +65,15 @@ The aspect that took the most time was definitely the translation of visualizati
 
 _Describe an insight or discovery you gain with your application that relates to the goals of your project._
 
-TODO
+**The Geography of Belief**
+ 
+ 
+
+**How Our Beliefs Shape Us**
+
+
+
+**How Our Beliefs Evolve**
+
+
+**The Shape of our Future Beliefs**
