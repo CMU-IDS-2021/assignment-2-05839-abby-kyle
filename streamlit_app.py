@@ -525,19 +525,46 @@ def create_belief_df(df):
         9.0: "Unsure"}
 
     #retrieve required columns, rename them, and drop unneeded rows
-    beliefdf=df[['qe1', 'qb1a','qb1b','qb1c','qb2a','qb2b', 'qb2c', 'qb2d', 'qb20', 'qb21', 'qb22', 'qb30', 'qb31', 'party']].copy()
+    beliefdf=df[[
+        "qe1",
+        "qb1a",
+        "qb1b",
+        "qb1c",
+        "qb2a",
+        "qb2b",
+        "qb2c",
+        "qb2d",
+        "qb20",
+        "qb21",
+        "qb22",
+        "qb30",
+        "qb31",
+        "party"]].copy()
+    
     beliefdf = beliefdf.rename(columns=belief)
     for val in columnstodrop:
         beliefdf = beliefdf[beliefdf.Religion != val]
-    #Update values for easy read
-    beliefdf = beliefdf.replace({'Immigration' : imm, 'Women in Workforce' : imm, "Children Out of Wedlock" : imm, 
-                             "Religion": RELIGION_DICT, 'Homosexuality':hom, 'Government Aid':govaid,"Environmental Regulations":envr,
-                            "Morality":more,"Government Size":govsize, "Abortion":ab, "Gay Marriage":gm,
-                            "Evolution":evo, "Guidance in Life":gil, "Political Party":pp})
+    
+    # Update values for easy read
+    beliefdf = beliefdf.replace({
+        "Immigration" : imm,
+        "Women in Workforce" : imm, 
+        "Children Out of Wedlock" : imm, 
+        "Religion": RELIGION_DICT, 
+        "Homosexuality": hom, 
+        "Government Aid": govaid,
+        "Environmental Regulations": envr,
+        "Morality": more,
+        "Government Size": govsize, 
+        "Abortion": ab,
+        "Gay Marriage": gm,
+        "Evolution": evo,
+        "Guidance in Life": gil,
+        "Political Party": pp})
     return beliefdf
 
 def create_belief_compare_chart(bdf, issue, religionlist):
-    #Update bdf for specific issue and set of religions
+    # Update bdf for specific issue and set of religions
     belief = pd.get_dummies(bdf[issue]).copy()
     belief['Religion'] = bdf['Religion']
     belief = belief.groupby('Religion').sum()
@@ -559,7 +586,6 @@ def create_belief_compare_chart(bdf, issue, religionlist):
             title=issue
         ).interactive()
     return result
-
 
 def render_connection_chapter(df):
     """
