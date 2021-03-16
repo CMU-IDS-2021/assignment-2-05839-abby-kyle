@@ -276,6 +276,19 @@ def render_introduction_content():
         "but you can keep exploring! Below you will find options " + 
         "for each section that will allow you to explore the data.")
 
+def render_conclusion_content():
+    """
+    Render the conclusion content.
+    """
+
+    '''
+    # Conclusion
+
+    This concludes our exploration of the current and (potential) future state of religious belief in America. What insights did you gain? Was there anything that surprised you? For instance, did you notice that respondents who claim to be religiously-unaffiliated are among the few groups that almost-universally believe in absolute standards for right and wrong? Or that when it comes to questions of right and wrong, younger individuals are more likely to rely on experience for answers than their elder peers, despite having less of it? 
+    
+    There are undoubtedly many more interesting connections available in the visualizations above; play around with them and see what you discover!
+    '''
+
 # -----------------------------------------------------------------------------
 # Chapter: Geography
 # -----------------------------------------------------------------------------
@@ -953,6 +966,8 @@ def main():
 
     # Chapter 4: Future
     render_future_chapter()
+
+    render_conclusion_content()
 
 # -----------------------------------------------------------------------------
 # Application Entry Point
