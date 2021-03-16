@@ -354,11 +354,8 @@ def render_states_viz(statesvreligion):
         height=DEFAULT_HEIGHT,
     ).project(
         type="albersUsa"
-<<<<<<< HEAD
     ).properties(
         title= "How Religious are the United States?", 
-=======
->>>>>>> 9cfc4dad4830a84b1aab3d8de2ca61b28b905ce6
     )
 
     uschart = uschart.configure_title(
@@ -624,14 +621,9 @@ def render_connection_chapter(df):
     ---
     # How Our Beliefs Shape Us
 
-<<<<<<< HEAD
-    Everyone has some form of a belief system that they use to navigate their life. It is absolutly necessary in order to deal with
-    the challenge of morality as well as simply 
-=======
     Our beliefs do not exist in a vacuum. They both pull and are pulled by other aspects of our identities. The next two chapters will examine how our beliefs relate to one another, and how they change with time.
     
     In this chapter, we explore religious belief and its _connection_ with other consequential beliefs that we hold. How does our religious belief relate to our stance on politics? On contentious issues like immigration policy or environmental regulations? On questions of right and wrong? Of course, we all have some intuition for how these questions are related, but are they founded in the data? This chapter allows us to examine precisely this.
->>>>>>> 9cfc4dad4830a84b1aab3d8de2ca61b28b905ce6
     '''  
     
     bdf = create_belief_df(df)
@@ -681,7 +673,8 @@ def render_connection_chapter(df):
 
     if st.sidebar.checkbox("Show the data for beliefs with respect to religion as a table. Note this is by individual"):
         st.subheader("Breakdown of Beliefs by Religion")
-        st.write("TODO add stuffystuff")
+        st.write("Here you can look at individual respondents who answered a series of questions about the issues shown above. "
+        +"Individuals are characterized by their claimed religious beliefs.")
         st.write(bdf.set_index('Religion'))
 
 
@@ -737,6 +730,10 @@ def render_evolution_chapter():
         title=option
     ).interactive()
 
+    viz = viz.configure_title(
+        fontSize=30,
+        font="Times New Roman")
+
     if full_text:
         st.write("The full text of the question with which respondents were prompted is:")
         st.write("'" + EVOLUTION_FULL_QUESTIONS[option] + "'")
@@ -779,15 +776,21 @@ def render_future_area_viz(df):
     # Make the chart
     future = alt.Chart(df).mark_area().encode(
         x="Year:T",
-        y=alt.Y("Count:Q", stack="normalize"),
+        y=alt.Y("Count:Q", stack="normalize", axis=alt.Axis(labels=False)),
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
         color=alt.Color('Religion:N',scale=alt.Scale(scheme="redyellowblue")),
+        tooltip=["Religion:N", "Year:T", "Count:Q"],
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
     ).add_selection(
         selection
+    ).properties(
+        title="The Change in Religious Landscape Overtime"
     )
+    future = future.configure_title(
+        fontSize=30,
+        font="Times New Roman")
 
     return future
 
