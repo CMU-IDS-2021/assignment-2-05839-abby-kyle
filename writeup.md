@@ -35,7 +35,7 @@ proportion of each state that subscribes to each of the major religions.
 
 **How Our Beliefs Shape Us**
 
-In this interactive visualization we seek to discover the ways in which our religious faith correlates with other belief systems. Respondents were asked several questions about their ideology. This was then tied to which religion they claimed to subscribe to. This provides a holoistic view of religions and a selection of ideologies. This graphic was a grouped bar chart so the user can see the distribution within each religion as well as compare against different religions. 
+In this interactive visualization we seek to discover the ways in which our religious faith correlates with other belief systems. Respondents were asked several questions about their ideology. This was then tied to which religion they claimed to subscribe to. This provides a holistic view of religions and a selection of ideologies. This graphic was a grouped bar chart so the user can see the distribution within each religion as well as compare against different religions. 
 
 **How Our Beliefs Evolve**
 
