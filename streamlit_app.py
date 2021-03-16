@@ -261,9 +261,19 @@ def render_introduction_content():
     ### Beliefs are one of the most important things in human life. They determine _the way we think_; _how we act_; _who we are_. 
 
     In the history of human endeavor, few belief systems have exerted a greater impact on our collective consciousness than religious faith. Many of our traditions date back millennia and have evolved symbiotically with us through the years, simultaneously shaping and being shaped by our collective will. 
+
+    In 2014, the Pew Research Center [conducted a survey](https://www.pewforum.org/2015/05/12/americas-changing-religious-landscape/) in the United States to explore the nature of our beliefs at a greater depth than they had ever attempted before. All of the visualizations that follow are constructed from Pew's [original dataset](https://www.pewforum.org/dataset/pew-research-center-2014-u-s-religious-landscape-study/).
+
+    Religious faith is a vast and complex topic. Our goal in the visualizations below is to distill (some of) the salient aspects of Pew's results into a comprehensible and approachable form. With that said, we must always bear in mind that religious belief, and belief in general, is replete with nuance. The insights we gain from this analysis may help us develop a _broad_ understanding of religious belief - "how do my beliefs compare with my 300 million neighbors", but they will no doubt fall short of providing us with _deep_ insights into the nature of personal belief.
+
+    With that disclaimer out of the way, let's jump in!
     '''
+
     st.sidebar.header("Digging Deeper")
-    st.sidebar.write("We are only grazing the surface with our main graphics, but you can keep exploring! Below you will find options for each section that will allow you to explore the data.")
+    st.sidebar.write(
+        "We are only grazing the surface with our main graphics, " +
+        "but you can keep exploring! Below you will find options " + 
+        "for each section that will allow you to explore the data.")
 
 # -----------------------------------------------------------------------------
 # Chapter: Geography
@@ -344,11 +354,6 @@ def render_states_viz(statesvreligion):
         height=DEFAULT_HEIGHT,
     ).project(
         type="albersUsa"
-    ).properties(
-        title= {
-            "text": ["How Religious are the United States?"], 
-            "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to. All values are percentages"],
-        }
     )
 
     uschart = uschart.configure_title(fontSize=30)
@@ -386,7 +391,9 @@ def render_geography_chapter(df):
     ---
     # The Geography of Belief
 
-    Let's first look at how religious states are. Here we define religious to be an individual that claims to subscribe to a belief system that has some form
+    The first aspect of religious belief we will look at is how it is shaped by _geography_. In the United States, despite our claims to "unity", are known for the degree of diversity that exists amongst our 50 constituent states. How does religious belief vary along geographic lines?
+
+    Here we define religious to be an individual that claims to subscribe to a belief system that has some form
     of a or supernatural or higher power. The heat map indicates the percentage by state. You can hover over individual states to see the
     actual values as a percentage as well as the percentage in that state that subscribe to a subset of major religions. For more options, navigate to
     the sidebar under "The Geography of Belief".
@@ -438,6 +445,7 @@ def render_geography_chapter(df):
 # -----------------------------------------------------------------------------
 # Chapter: Connection
 # -----------------------------------------------------------------------------
+
 def create_belief_df(df):
     columnstodrop = [
         21.0, 22.0, 23.0, 24.0, 25.0, 30.0, 31.0, 32.0, 33.0, 34.0,
@@ -522,7 +530,7 @@ def create_belief_df(df):
         3.0: "Practical Experience",
         4.0: "Scientific Information",
         9.0: "Unsure"}
-        
+
     pp = {
         1.0: "Republican",
         2.0: "Democrat",
@@ -603,7 +611,9 @@ def render_connection_chapter(df):
     ---
     # How Our Beliefs Shape Us
 
-    some narrative
+    Our beliefs do not exist in a vacuum. They both pull and are pulled by other aspects of our identities. The next two chapters will examine how our beliefs relate to one another, and how they change with time.
+    
+    In this chapter, we explore religious belief and its _connection_ with other consequential beliefs that we hold. How does our religious belief relate to our stance on politics? On contentious issues like immigration policy or environmental regulations? On questions of right and wrong? Of course, we all have some intuition for how these questions are related, but are they founded in the data? This chapter allows us to examine precisely this.
     '''  
     
     bdf = create_belief_df(df)
@@ -616,7 +626,7 @@ def render_connection_chapter(df):
             "Women in Workforce", 
             "Children Out of Wedlock", 
             "Religion", 
-            'Homosexuality',
+            "Homosexuality",
             "Government Aid",
             "Environmental Regulations",
             "Morality",
