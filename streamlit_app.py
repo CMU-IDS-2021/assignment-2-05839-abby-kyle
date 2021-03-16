@@ -213,7 +213,7 @@ def render_states_viz(statesvreligion):
             alt.Tooltip("Mormon:Q", format=".2%"),
             alt.Tooltip("Agnostic:Q", format=".2%"),
             alt.Tooltip("Atheist:Q", format=".2%")],
-        color=alt.Color("Percent Religious:Q", scale=alt.Scale(scheme="inferno", reverse=True))
+        color=alt.Color("Percent Religious:Q", scale=alt.Scale(scheme="redyellowblue", reverse=True))
     ).transform_lookup(
         lookup="id",
         from_=alt.LookupData(
@@ -341,9 +341,15 @@ def render_connection_chapter(df):
     '''
     ---
     # How Our Beliefs Shape Us
+
+    some narrative
     '''
     # Sidebar
     st.sidebar.subheader("How Our Beliefs Shape Us")
+
+    if st.sidebar.checkbox("Show the data"):
+        st.subheader("the data")
+
 
 # -----------------------------------------------------------------------------
 # Chapter: Evolution
