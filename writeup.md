@@ -30,15 +30,16 @@ Below, we break down the design for each of the component visualizations we cons
 
 **The Geography of Belief**
 
-In this interactive visualization we seek to create a way to easily explore the distribution of religious beliefs in the United States.
-
-**How Beliefs Change with Us**
-
-In this interactive visualization we seek to discover the manner in which religious faith, as measured by the various metrics and questions present in the Pew survey, change with various variables in human life.
+In this interactive visualization we seek to create a way to easily explore the distribution of religious beliefs in the United States. The first visualization provides the big picture of how religious the United States are broken down by each state. This is the big idea, but then a user can explore further by comparing individual states. This graphic is a stacked bar graph that more clearly shows the 
+proportion of each state that subscribes to each of the major religions. 
 
 **How Beliefs Shape Us**
 
-In this interactive visualization we seek to discover the ways in which our religious faith correlates with other belief systems.
+In this interactive visualization we seek to discover the ways in which our religious faith correlates with other belief systems. Respondents were asked several questions about their ideology. This was then tied to which religion they claimed to subscribe to. This provides a holoistic view of religions and a selection of ideologies. This graphic was a grouped bar chart so the user can see the distribution within each religion as well as compare against different religions. 
+
+**How Beliefs Evolve**
+
+In this interactive visualization we seek to discover the manner in which religious faith, as measured by the various metrics and questions present in the Pew survey, change over the various stages of human life. Stages here means the age of the respondent. Challenging religious questions were asked and thsi was tied to the respondent's age. The result is a visualization where the user can see how opinions and the proportion of people who hold those opinions change as the individual ages. It may also provide insight about the change of belief systems across generational lines. 
 
 **The Evolving Shape of Belief**
 
