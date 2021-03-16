@@ -248,6 +248,29 @@ def render_states_viz(statesvreligion):
     uschart = uschart.configure_title(fontSize=30)
     return uschart
 
+def stackedtablereligion(selectlist, df):
+    stackedbars = df.drop(columns = ["Percent Religious", "id"]).set_index("State")
+    colnames = list(stackedbars.columns)
+    #set up data
+    data = stackedbars.loc[selectlist, :]
+    data = data.reset_index()
+    data = data.melt(id_vars=['State'], value_vars=colnames,
+            var_name='Religion', value_name='Percent')
+    #Make the stacked bar chart
+    stchart = alt.Chart(data).mark_bar().encode(
+            x=alt.X('sum(Percent)', scale=alt.Scale(domain=(0, 1)), axis=alt.Axis(format='%', title='Percentage')),
+            y='State',
+            color=alt.Color('Religion:N',scale=alt.Scale(scheme="redyellowblue")),
+            tooltip=['State:N', 'Religion:N', alt.Tooltip('Percent:Q', format='.2%')],
+        ).properties(
+            width=DEFAULT_WIDTH,
+            height=DEFAULT_HEIGHT,
+        ).properties(
+            title="Religions by State"
+        ).interactive()
+    return stchart
+
+
 def render_geography_chapter(df):
     """
     Render the 'geography' chapter.
@@ -289,10 +312,22 @@ def render_geography_chapter(df):
             columns = ["Percent Religious", "id"]).set_index("State").apply(lambda x: x*100)
         st.write(statedf)
 
-    st.sidebar.write("Compare the religious breakdowns for each state. You can select by either states or regions, and you can select multiple options.")
-    st.sidebar.multiselect("State", statereligion, key='State')
-    st.sidebar.multiselect("Region", ["Midwest", "Northeast", "Southeast", "Southwest", "West"])
-    st.subheader("Chart by State")
+    if st.sidebar.checkbox("Compare States"):
+        st.sidebar.write("Compare the religious breakdowns for each state. You can select multiple options.")
+        stateselect = st.sidebar.multiselect("State", statereligion, key='State')
+        #regionselect = st.sidebar.multiselect("Region", ["Midwest", "Northeast", "Southeast", "Southwest", "West"])
+        if stateselect != []:
+            st.subheader("Compare States")
+            st.write("Here you can visually compare the different religions in each state as well as compare states against each other."
+            + " Remeber you can select multiple states at the same time!")
+            stateselectchart = stackedtablereligion(stateselect, statereligion)
+            st.write(stateselectchart)
+        #if regionselect != []:
+        #    st.subheader("Compare Regions")
+        #    st.write("Here you can visually compare the different religions in each regions as well as compare regions against each other."
+        #    + "Remeber you can select multiple states at the same time!")
+        #    regionselectchart = stackedtablereligion(regionselect, statereligion, True)
+        #    st.write(regionselectchart)
 
 # -----------------------------------------------------------------------------
 # Chapter: Connection
