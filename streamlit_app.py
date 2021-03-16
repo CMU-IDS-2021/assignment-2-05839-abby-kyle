@@ -17,6 +17,19 @@ PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
 # The relative path to the patterns dataset
 FUTURE_DATA_PATH = DATA_PATH + "future.csv"
 
+# For the datasets used in the 'evolution' chapter,
+# we load a dataset for each question of interst
+EVOLUTION_BELIEVE_GOD_PATH = DATA_PATH + "believe_god.csv"
+
+# Map the question text to the path to the data for that question
+EVOLUTION_QUESTIONS = {
+    "Do You Believe in God?": EVOLUTION_BELIEVE_GOD_PATH
+}
+
+# The minimum and maximum ages in the dataset
+MIN_AGE = 24
+MAX_AGE = 90
+
 # The default height for our visualizations
 DEFAULT_WIDTH = 800
 # The default height for our visualizations
@@ -133,10 +146,16 @@ st.set_page_config(layout="wide")
 # Data Loading
 # -----------------------------------------------------------------------------
 
- # Add caching so we load the data only once
 @st.cache 
 def load_primary_data():
     return pd.read_spss(PRIMARY_DATA_PATH, convert_categoricals=False)
+
+@st.cache
+def load_evolution_data():
+    frames = {}
+    for question, path in EVOLUTION_QUESTIONS.items():
+        frames[question] = pd.read_csv(path)
+    return frames
 
 @st.cache
 def load_future_data():
@@ -349,7 +368,7 @@ def render_connection_chapter(df):
 # Chapter: Evolution
 # -----------------------------------------------------------------------------
 
-def render_evolution_chapter(df):
+def render_evolution_chapter():
     """
     Render the 'evolution' chapter.
     """
@@ -359,15 +378,34 @@ def render_evolution_chapter(df):
     # How Our Beliefs Evolve With Us
     '''
 
-    df1 = pd.DataFrame(np.matrix([1, 2]))
-    df2 = pd.DataFrame(np.matrix([3, 4]))
+    # Load a map from question -> dataframe
+    frames = load_evolution_data()
 
-    option = st.selectbox("Label", options=["Foo", "Bar"])
+    # Select box allows users to select question of interest
+    option = st.selectbox("Question", options=[k for k in frames.keys()])
+    
+    # Select the appropriate data to render based on the selection
+    df = frames[option]
 
-    if option == "Foo":
-        st.write(df1)
-    else:
-        st.write(df2)
+    # Select the appropriate age based on the slider value
+    age = st.slider(label="Age", min_value=MIN_AGE, max_value=MAX_AGE)
+    tmp = df.loc[df["Age"] == age]
+    
+    # Reformat the data for plotting
+    plot = pd.DataFrame()
+    for c in filter(lambda x: x != "Age" and x != "Unnamed: 0", tmp.columns):
+        plot = plot.append(pd.DataFrame(np.matrix([c, tmp.iloc[0][c]])))    
+    plot.columns = ["Response", "Proportion"]
+
+    viz = alt.Chart(plot).mark_bar().encode(
+        x="Response:N",
+        y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0]))
+    ).properties(
+        width=DEFAULT_WIDTH,
+        height=DEFAULT_HEIGHT
+    )
+
+    st.write(viz)
 
 # -----------------------------------------------------------------------------
 # Chapter: Future
@@ -434,7 +472,7 @@ def render_future_diff_viz(df):
 
     return chart
 
-def render_future_chapter(df):
+def render_future_chapter():
     """
     Render the 'future' chapter.
     """
@@ -446,10 +484,11 @@ def render_future_chapter(df):
     Narrative
     '''
 
+    df = load_future_data()
+
     st.write(render_future_area_viz(df))
     st.write(render_future_diff_viz(df))
     st.write(df)
-
 
 # -----------------------------------------------------------------------------
 # Main
@@ -458,7 +497,6 @@ def render_future_chapter(df):
 def main():
     # Load the datasets
     df_primary = load_primary_data()
-    df_future = load_future_data()
     
     render_introduction_content()
 
@@ -469,10 +507,10 @@ def main():
     render_connection_chapter(df_primary)
 
     # Chapter 3: Evolution
-    render_evolution_chapter(df_primary)
+    render_evolution_chapter()
 
     # Chapter 4: Future
-    render_future_chapter(df_future)
+    render_future_chapter()
 
 # -----------------------------------------------------------------------------
 # Application Entry Point
