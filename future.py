@@ -1,5 +1,7 @@
 # future.py 
 #
+# Preprocessing for the 'future' chapter.
+# 
 # Code to predict the future proportions of religious 
 # adherents in the United States based on current proportions
 # of the population and current transition trends.

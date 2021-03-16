@@ -10,7 +10,7 @@ import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
-DATA_PATH = "assignment-2-05839-abby-kyle/data/"
+DATA_PATH = "data/"
 
 # The relative path to the primary dataset
 PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
@@ -365,6 +365,15 @@ def render_evolution_chapter(df):
     # How Our Beliefs Evolve With Us
     '''
 
+    df1 = pd.DataFrame(np.matrix([1, 2]))
+    df2 = pd.DataFrame(np.matrix([3, 4]))
+
+    option = st.selectbox("Label", options=["Foo", "Bar"])
+
+    if option == "Foo":
+        st.write(df1)
+    else:
+        st.write(df2)
 
 # -----------------------------------------------------------------------------
 # Chapter: Future
