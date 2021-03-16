@@ -20,7 +20,7 @@ In this project, we examine the results of The Pew Research Center's [2014 Relig
 
 _Describe the question that you are enabling a user to answer. The question should be compelling and the solution should be focused on helping users achieve their goals._
 
-TODO
+We stylize our application as an exploration of the "shape of belief." Obviously, this is a vague title, but we adopt this title in order to reflect the broadness of the topic. As is stated in the introduction section of the application itself, religious belief is a complex topic.
 
 ## Design
 
