@@ -381,7 +381,7 @@ def render_geography_chapter(df):
     '''
     
     # Set pandas for first visual
-    statereligion = prepare_states(df, STATE_DICT, STATE_DICT)
+    statereligion = prepare_states(df, RELIGION_DICT, STATE_DICT)
 
     # Render the states visualization
     st.write(render_states_viz(statereligion))
