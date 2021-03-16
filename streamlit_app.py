@@ -10,7 +10,7 @@ import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
-DATA_PATH = "assignment-2-05839-abby-kyle/data/"
+DATA_PATH = "data/"
 
 # The relative path to the primary dataset
 PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
