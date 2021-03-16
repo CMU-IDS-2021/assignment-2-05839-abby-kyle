@@ -185,6 +185,15 @@ EVOLUTION_QUESTIONS = {
     "The Holy Book for My Religion is...": EVOLUTION_SCRIPTURE_PATH
 }
 
+# The full text of the questions
+EVOLUTION_FULL_QUESTIONS = {
+    "Do You Believe in God?": "Do you believe in God or a universal spirit?",
+    "Do You Believe in Heaven?": "Do you think there is a heaven, where people who have led good lives are eternally rewarded?",
+    "Do You Believe in Hell?": "Do you think there is a hell, where people who have led bad lives and die without being sorry are eternally punished?",
+    "Where Do You Look for Guidance on Questions of Right and Wrong?": "When it comes to questions of right and wrong, which of the following do you look to most for guidance?",
+    "The Holy Book for My Religion is...": "Which comes closest to your view: the holy book of my religion is..."
+}
+
 # The minimum and maximum ages in the dataset
 MIN_AGE = 24
 MAX_AGE = 90
@@ -456,8 +465,15 @@ def render_evolution_chapter():
 
     '''
     ---
-    # How Our Beliefs Evolve With Us
+    # How Our Beliefs Evolve
+
+    We need some introductory material here.
     '''
+
+    # Sidebar
+    st.sidebar.subheader("How Our Beliefs Evolve")
+    full_text = st.sidebar.checkbox("Show Full Question Text")
+    show_data = st.sidebar.checkbox("Show the Data")
 
     # Load a map from question -> dataframe
     frames = load_evolution_data()
@@ -467,6 +483,7 @@ def render_evolution_chapter():
     
     # Select the appropriate data to render based on the selection
     df = frames[option]
+    df = df.drop(columns=["Unnamed: 0"])
 
     # Select the appropriate age based on the slider value
     age = st.slider(label="Age", min_value=MIN_AGE, max_value=MAX_AGE)
@@ -474,19 +491,30 @@ def render_evolution_chapter():
     
     # Reformat the data for plotting
     plot = pd.DataFrame()
-    for c in filter(lambda x: x != "Age" and x != "Unnamed: 0", tmp.columns):
+    for c in filter(lambda x: x != "Age", tmp.columns):
         plot = plot.append(pd.DataFrame(np.matrix([c, tmp.iloc[0][c]])))    
     plot.columns = ["Response", "Proportion"]
 
     viz = alt.Chart(plot).mark_bar(color=COLOR_SCHEME_BLUE).encode(
         x=alt.X("Response:N"),
-        y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0]))
+        y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0])),
+        tooltip=["Proportion"]
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
-    )
+    ).interactive()
+
+    if full_text:
+        st.write("The full text of the question with which respondents were prompted is:")
+        st.write("'" + EVOLUTION_FULL_QUESTIONS[option] + "'")
 
     st.write(viz)
+
+    if show_data:
+        '''
+        In the table below you can explore all of the data used to generate the interactive plot above.
+        '''
+        st.write(df)
 
 # -----------------------------------------------------------------------------
 # Chapter: Future
@@ -542,6 +570,7 @@ def render_future_diff_viz(df):
     chart = alt.Chart(pre).mark_bar().encode(
         x=alt.X("Religion:N", sort=order),
         y="Delta:Q",
+        tooltip=["Delta"],
         color=alt.condition(
             alt.datum.Delta > 0,
             alt.value("green") , # The positive color
@@ -549,7 +578,7 @@ def render_future_diff_viz(df):
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
-    )
+    ).interactive()
 
     return chart
 
@@ -566,10 +595,19 @@ def render_future_chapter():
     '''
 
     df = load_future_data()
+    df = df.drop(columns=["Unnamed: 0"])
+
+    st.sidebar.subheader("The Shape of our Future Beliefs")
+    show_data = st.sidebar.checkbox("Show Data")
 
     st.write(render_future_area_viz(df))
     st.write(render_future_diff_viz(df))
-    st.write(df)
+
+    if show_data:
+        '''
+        In the table below you can explore all of the data used to generate the interactive plot above.
+        '''
+        st.write(df)
 
 # -----------------------------------------------------------------------------
 # Main
