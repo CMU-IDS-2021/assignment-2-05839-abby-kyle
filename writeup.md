@@ -31,6 +31,8 @@ The goal of our project, therefore, is to provide a concise description of the d
 
 _How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?_
 
+We wanted to create visualizations that allowed users to interact with and easily visualize the religious survey data. We wanted to allow self exploration as much as possbile so that the user could discover their own insights. The chart choices were driven by a desire to effectively display the data but with enough variety in chart type that the user stays engaged. This was also a driving factor in our decision to set up the app in the form of a narrative. We also choose a base color palette and font style in order to allow for a more cohesive flow and user experience as they navigate the app.  
+
 Below, we break down the design for each of the component visualizations we constructed for our project.
 
 **The Geography of Belief**
