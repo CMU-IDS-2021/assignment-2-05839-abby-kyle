@@ -48,7 +48,15 @@ In this interactive visualization we seek to hypothesize what the future distrib
 
 _Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?_
 
-TODO
+Our development process began with identifying the dataset that we wanted to work with, and the story we wanted to tell. There were plenty of interesting datasets suggested in the writeup for this assignment, so determining the particular dataset that we wanted to work with was no easy task. Eventually, we settled on the 2014 Pew Religious Landscape Survey dataset because this was a topic that both of us found intellectually engaging, but also one in which we felt there was space to develop useful visualizations that actual reveal insights of which we were previously unaware.
+
+Once we had identified the dataset, we partitioned the overall arc of the story we wanted to tell into discrete sections. To do this, we examined the data available to us in the dataset and developed some questions that we thought we might be able to answer based on the available data. The questions that we settled on are described in the _Design_ section above.
+
+With the overall narrative of the project established, we were able to split the remaining work of developing the visualizations evenly between the two of us. Abby worked on the _Geography_ and _Connection_ sections, while Kyle worked on the _Evolution_ and _Future_ sections. With this breakdown, we were able to work concurrently (often in the same file) without encountering excessive merge conflicts.
+
+Overall, we spent (approximately) twenty people-hours working on the application itself. This includes preprocessing of the dataset, developing the visualizations, and authoring the narrative elements of the application.
+
+The aspect that took the most time was definitely the translation of visualizations that we had in our heads to realization in code that actually allowed us to render the visualization. We found that while the Altair library allows one to concisely render an elegant visualization, it often assumes a very specific format for the input data. Our dataset was relatively difficult to work with in this regard, and required a large amount of preprocessing and wrangling in order to prepare it for use in Altair charts.
 
 ## Success Story
 
