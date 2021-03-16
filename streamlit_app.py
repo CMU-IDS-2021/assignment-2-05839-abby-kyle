@@ -10,7 +10,7 @@ import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
-DATA_PATH = "data/"
+DATA_PATH = "assignment-2-05839-abby-kyle/data/"
 
 # -----------------------------------------------------------------------------
 # Primary Dataset
@@ -412,6 +412,13 @@ def render_geography_chapter(df):
     # Render the states visualization
     st.write(render_states_viz(statereligion))
 
+    '''
+    The sidebar has a couple of interesting options available for this visualization. You can:
+
+    - Render the raw data from which this graphic was generated
+    - Explore the percentages of each state that subscribe to different religions and compare states against each other.
+    '''
+
     #-------------------------------------------------------------------
     # Sidebar
     #-------------------------------------------------------------------
@@ -435,19 +442,12 @@ def render_geography_chapter(df):
     if st.sidebar.checkbox("Compare States"):
         st.sidebar.write("Compare the religious breakdowns for each state. You can select multiple options.")
         stateselect = st.sidebar.multiselect("State", statereligion, key='State')
-        #regionselect = st.sidebar.multiselect("Region", ["Midwest", "Northeast", "Southeast", "Southwest", "West"])
         if stateselect != []:
             st.subheader("Compare States")
             st.write("Here you can visually compare the different religions in each state as well as compare states against each other."
             + " Remeber you can select multiple states at the same time!")
             stateselectchart = stackedtablereligion(stateselect, statereligion)
             st.write(stateselectchart)
-        #if regionselect != []:
-        #    st.subheader("Compare Regions")
-        #    st.write("Here you can visually compare the different religions in each regions as well as compare regions against each other."
-        #    + "Remeber you can select multiple states at the same time!")
-        #    regionselectchart = stackedtablereligion(regionselect, statereligion, True)
-        #    st.write(regionselectchart)
 
 # -----------------------------------------------------------------------------
 # Chapter: Connection
@@ -670,11 +670,17 @@ def render_connection_chapter(df):
         if religionselect != []:
             beliefchart = create_belief_compare_chart(bdf, beliefselect, religionselect)
             st.write(beliefchart)
+    
+    '''
+    The sidebar has a couple of interesting options available for this visualization. You can:
+
+    - Render the raw data from which this graphic was generated. Note the data is presented by individual responder.
+    '''
 
     # Sidebar
     st.sidebar.subheader("How Our Beliefs Shape Us")
 
-    if st.sidebar.checkbox("Show the data for beliefs with respect to religion as a table. Note this is by individual"):
+    if st.sidebar.checkbox("Show the data for beliefs with respect to religion as a table."):
         st.subheader("Breakdown of Beliefs by Religion")
         st.write("Here you can look at individual respondents who answered a series of questions about the issues shown above. "
         +"Individuals are characterized by their claimed religious beliefs.")
