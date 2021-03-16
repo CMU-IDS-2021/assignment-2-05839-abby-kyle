@@ -78,6 +78,61 @@ BELIEVE_IN_HEAVEN_RESPONSE_MAP = {
 }
 
 # -----------------------------------------------------------------------------
+# Believe in Hell
+# -----------------------------------------------------------------------------
+
+# The output filename for the processed data
+BELIEVE_IN_HELL_FILENAME = "believe_hell.csv"
+
+# The identifier for the question in the input dataframe
+BELIEVE_IN_HELL_Q = "qg6"
+
+# Map response label -> response text
+BELIEVE_IN_HELL_RESPONSE_MAP = {
+    1.0: "Yes",
+    2.0: "No",
+    9.0: "Don't Know",
+    3.0: "Other"
+}
+
+# -----------------------------------------------------------------------------
+# Right and Wrong
+# -----------------------------------------------------------------------------
+
+# The output filename for the processed data
+RIGHT_AND_WRONG_FILENAME = "right_and_wrong.csv"
+
+# The identifier for the question in the input dataframe
+RIGHT_AND_WRONG_Q = "qb31"
+
+# Map response label -> response text
+RIGHT_AND_WRONG_RESPONSE_MAP = {
+    1.0: "Religious Teaching / Beliefs",
+    2.0: "Philosophy and Reason",
+    3.0: "Practical Experience / Common Sense",
+    4.0: "Scientific Information",
+    9.0: "Don't Know"
+}
+
+# -----------------------------------------------------------------------------
+# Scripture
+# -----------------------------------------------------------------------------
+
+# The output filename for the processed data
+SCRIPTURE_FILENAME = "scripture.csv"
+
+# The identifier for the question in the input dataframe
+SCRIPTURE_Q = "qg7"
+
+# Map response label -> response text
+SCRIPTURE_RESPONSE_MAP = {
+    1.0: "The Word of God",
+    2.0: "The Work of Men",
+    3.0: "Other",
+    9.0: "Don't Know"
+}
+
+# -----------------------------------------------------------------------------
 # Generic Processor
 # -----------------------------------------------------------------------------
 
@@ -166,6 +221,36 @@ def process_believe_heaven(df):
     print("[+] Done!")
 
 # -----------------------------------------------------------------------------
+# Believe in Hell
+# -----------------------------------------------------------------------------
+
+def process_believe_hell(df):
+    print("[+] Processing 'believe in hell'...")
+    prepped = processor(df, BELIEVE_IN_HELL_Q, BELIEVE_IN_HELL_RESPONSE_MAP)
+    prepped.to_csv(DATA_PATH + BELIEVE_IN_HELL_FILENAME)
+    print("[+] Done!")
+
+# -----------------------------------------------------------------------------
+# Right and Wrong
+# -----------------------------------------------------------------------------
+
+def process_right_and_wrong(df):
+    print("[+] Processing 'right and wrong'...")
+    prepped = processor(df, RIGHT_AND_WRONG_Q, RIGHT_AND_WRONG_RESPONSE_MAP)
+    prepped.to_csv(DATA_PATH + RIGHT_AND_WRONG_FILENAME)
+    print("[+] Done!")
+
+# -----------------------------------------------------------------------------
+# Scripture
+# -----------------------------------------------------------------------------
+
+def process_right_and_wrong(df):
+    print("[+] Processing 'scripture'...")
+    prepped = processor(df, SCRIPTURE_Q, SCRIPTURE_RESPONSE_MAP)
+    prepped.to_csv(DATA_PATH + SCRIPTURE_FILENAME)
+    print("[+] Done!")
+
+# -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
 
@@ -173,6 +258,8 @@ def main():
     df = pd.read_spss(DATA_FILE, convert_categoricals=False)
     process_believe_god(df)
     process_believe_heaven(df)
+    process_believe_hell(df)
+    process_right_and_wrong(df)
 
 # -----------------------------------------------------------------------------
 # Script Entry Point

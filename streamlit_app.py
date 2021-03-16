@@ -126,11 +126,17 @@ regiondict = {
 # we load a dataset for each question of interest
 EVOLUTION_BELIEVE_GOD_PATH = DATA_PATH + "believe_god.csv"
 EVOLUTION_BELIEVE_HEAVEN_PATH = DATA_PATH + "believe_heaven.csv"
+EVOLUTION_BELIEVE_HELL_PATH = DATA_PATH + "believe_hell.csv"
+EVOLUTION_RIGHT_AND_WRONG_PATH = DATA_PATH + "right_and_wrong.csv"
+EVOLUTION_SCRIPTURE_PATH = DATA_PATH + "scripture.csv"
 
 # Map the question text to the path to the data for that question
 EVOLUTION_QUESTIONS = {
     "Do You Believe in God?": EVOLUTION_BELIEVE_GOD_PATH,
-    "Do You Believe in Heaven?": EVOLUTION_BELIEVE_HEAVEN_PATH
+    "Do You Believe in Heaven?": EVOLUTION_BELIEVE_HEAVEN_PATH,
+    "Do You Believe in Hell?": EVOLUTION_BELIEVE_HELL_PATH,
+    "Where Do You Look for Guidance on Questions of Right and Wrong?": EVOLUTION_RIGHT_AND_WRONG_PATH,
+    "The Holy Book for My Religion is...": EVOLUTION_SCRIPTURE_PATH
 }
 
 # The minimum and maximum ages in the dataset
@@ -427,7 +433,7 @@ def render_evolution_chapter():
     plot.columns = ["Response", "Proportion"]
 
     viz = alt.Chart(plot).mark_bar(color=COLOR_SCHEME_BLUE).encode(
-        x="Response:N",
+        x=alt.X("Response:N"),
         y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0]))
     ).properties(
         width=DEFAULT_WIDTH,
