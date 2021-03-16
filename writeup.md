@@ -7,6 +7,9 @@ _CMU 05-839: Interactive Data Science_
 _16 March 2021_
 
 ![](streamlit_app_capture.PNG)
+![](streamlit_app_capture2.PNG)
+![](streamlit_app_capture3.PNG)
+![](streamlit_app_capture4.PNG)
 
 ## Abstract
 
