@@ -65,13 +65,16 @@ _Describe an insight or discovery you gain with your application that relates to
 
 **The Geography of Belief**
  
- 
+Here there was a significant amount of confirmation of previously held beliefs. For example, we expected to see the Southern states have a high percent of the population claim to be religious. However, over 90% in several was even higher than expeted. Moreover, we found it interesting that there was some clustering of where certain religions were more prominent. For example, the states surrounding Utah had a much higher percentage of Mormonism. Roman Catholics were prominent in the Northeast and even a small majority in a couple states yet had a much smaller presence elsewhere. 
 
 **How Our Beliefs Shape Us**
 
-
+We were surpised about the consistency that existed for certain religions on certain issues and the lack thereof for other issues. For example, we were surprised that Roman Catholic individuals were fairly evenly divided on the issue of abortion. In contrast, Jehovah's Witness respondees were overwhelmingly against abortion and we had expected the Roman Catholic chart to mirror this one. We also found the even splits on certain issues to be surprising as well. Homesexuality and Gay Marriage (note this is 2014 data so likely outdated to some degree) saw many of the many religions be split evenly on both sides of the fence. This likely indicates a scale of strictness within the umbrella of a religion. 
 
 **How Our Beliefs Evolve**
 
+We found it interesting that there was a tendency to become more religious (or at least a greater subset of the population is religious) as individuals age and the shadow of death begins to loom. It seems that individuals start taking religion with greater seriousness as they often provide some degree of comfort or certainty about post-death.
 
 **The Shape of our Future Beliefs**
+
+We were quite surprised at the religions that are projected to lose or gain a significant number of individuals. The huge projected gain of Moromonism was surprising (noting that these are indeed projects based on current distributions and religious growth). Additionally, the biggest loser being Roman Catholicism was interesting. We attributed this to the shifts socially in society that stands in stark constrast to some of the base belief sets of Roman Catholicism. 
