@@ -345,13 +345,12 @@ def render_states_viz(statesvreligion):
     ).project(
         type="albersUsa"
     ).properties(
-        title= {
-            "text": ["How Religious are the United States?"], 
-            "subtitle": ["A breakdown of how religious each state is and what religions they subscribe to. All values are percentages"],
-        }
+        title= "How Religious are the United States?", 
     )
 
-    uschart = uschart.configure_title(fontSize=30)
+    uschart = uschart.configure_title(
+        fontSize=30,
+        font="Times New Roman")
     return uschart
 
 def stackedtablereligion(selectlist, df):
@@ -374,6 +373,9 @@ def stackedtablereligion(selectlist, df):
         ).properties(
             title="Religions by State"
         ).interactive()
+    stchart = stchart.configure_title(
+        fontSize=30,
+        font="Times New Roman")
     return stchart
 
 
@@ -592,6 +594,9 @@ def create_belief_compare_chart(bdf, issue, religionlist):
         ).properties(
             title=issue
         ).interactive()
+    result = result.configure_title(
+        fontSize=30,
+        font="Times New Roman")
     return result
 
 def render_connection_chapter(df):
@@ -603,12 +608,13 @@ def render_connection_chapter(df):
     ---
     # How Our Beliefs Shape Us
 
-    some narrative
+    Everyone has some form of a belief system that they use to navigate their life. It is absolutly necessary in order to deal with
+    the challenge of morality as well as simply 
     '''  
     
     bdf = create_belief_df(df)
 
-    st.write("Select a belief or issue from the dropdown list below. Then, select one or more religions you would like to look at."
+    st.write("Select a belief or issue from the list below. Then, select one or more religions you would like to look at."
     + " You will be able to look at the breakdown of each religion by stance and compare them to other religions.")
     beliefselect = st.radio(
         "Belief or Issue", (
@@ -696,15 +702,17 @@ def render_evolution_chapter():
     plot = pd.DataFrame()
     for c in filter(lambda x: x != "Age", tmp.columns):
         plot = plot.append(pd.DataFrame(np.matrix([c, tmp.iloc[0][c]])))    
-    plot.columns = ["Response", "Proportion"]
+    plot.columns = ["Response", "Percent"]
 
     viz = alt.Chart(plot).mark_bar(color=COLOR_SCHEME_BLUE).encode(
         x=alt.X("Response:N"),
-        y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0])),
-        tooltip=["Proportion"]
+        y=alt.Y("Percent:Q", scale=alt.Scale(domain=[0.0, 1.0])),
+        tooltip=[alt.Tooltip('Percent:Q', format='.2%')]
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
+    ).properties(
+        title=option
     ).interactive()
 
     if full_text:
@@ -750,8 +758,8 @@ def render_future_area_viz(df):
     future = alt.Chart(df).mark_area().encode(
         x="Year:T",
         y=alt.Y("Count:Q", stack="normalize"),
-        color="Religion:N",
-        opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+        opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+        color=alt.Color('Religion:N',scale=alt.Scale(scheme="redyellowblue")),
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
