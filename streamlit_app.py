@@ -435,6 +435,62 @@ def render_geography_chapter(df):
 # -----------------------------------------------------------------------------
 # Chapter: Connection
 # -----------------------------------------------------------------------------
+def create_belief_df(df):
+    columnstodrop = [21.0, 22.0, 23.0, 24.0, 25.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0,
+                 43.0, 44.0, 45.0,46.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,59.0,61.0,62.0,63.0,64.0,65.0,
+                 70.0,71.0,72.0,73.0,74.0,75.0,76.0,77.0,78.0,79.0,81.0,82.0,83.0,84.0,85.0,86.0,88.0,90.0,94.0,
+                 96.0, 994.0,999.0]
+    belief = {'qe1':'Religion', 'qb1a':"Immigration",'qb1b':"Women in Workforce",'qb1c': "Children Out of Wedlock",'qb2a': "Homosexuality",
+    'qb2b':"Government Aid",'qb2c':"Environmental Regulations", 'qb2d': "Morality", 'qb20':"Government Size", 'qb21':"Abortion",
+    'qb22':"Gay Marriage", 'qb30':"Evolution", 'qb31': "Guidance in Life", 'party':'Political Party'}
+    imm = {1.0: "Positive Change", 2.0:"Negative Change", 3.0:"No Change", 4.0:"Mixed Change", 9.0:"Unsure"}
+    hom = {1.0:"Accepted by Society", 2.0:"Rejected by Society", 3.0:'Both Equally', 9.0:"Unsure"}
+    govaid = {1.0:"More Harm than Good", 2.0:"More Good than Harm", 3.0:'Both Equally', 9.0:"Unsure"}
+    envr = {1.0:"Hurt the Economy", 2.0:"Worth the cost", 3.0:'Both Equally', 9.0:"Unsure"}
+    more = {1.0:"Situationally Dependent", 2.0:"Absolute Standards for Right and Wrong", 3.0:'Both Equally', 9.0:"Unsure"}
+    govsize = {1.0:"Small", 2.0:"Large", 3.0:'Depends', 9.0:"Unsure"}
+    ab = {1.0:"Legal", 2.0:"Legal in Most Cases", 3.0:'Illegal in Most Cases',4.0:"Illegal", 9.0:"Unsure"}
+    gm = {1.0:"Strongly favor", 2.0:"Favor", 3.0:'Oppose',4.0:"Strongly Oppose", 9.0:"Unsure"}
+    evo = {1.0:"Agree", 2.0:"Disagree", 9.0:"Unsure"}
+    gil = {1.0:"Religious Teachings", 2.0:"Philosphy and Reason", 3.0:'Practical Experience',4.0:"Scientific Information", 9.0:"Unsure"}
+    pp = {1.0:"Republican", 2.0:"Democrat", 3.0:'Independent',4.0:"No Preference",5.0:"Other", 9.0:"Unsure"}
+
+    #retrieve required columns, rename them, and drop unneeded rows
+    beliefdf=df[['qe1', 'qb1a','qb1b','qb1c','qb2a','qb2b', 'qb2c', 'qb2d', 'qb20', 'qb21', 'qb22', 'qb30', 'qb31', 'party']].copy()
+    beliefdf = beliefdf.rename(columns=belief)
+    for val in columnstodrop:
+        beliefdf = beliefdf[beliefdf.Religion != val]
+    #Update values for easy read
+    beliefdf = beliefdf.replace({'Immigration' : imm, 'Women in Workforce' : imm, "Children Out of Wedlock" : imm, 
+                             "Religion": RELIGION_DICT, 'Homosexuality':hom, 'Government Aid':govaid,"Environmental Regulations":envr,
+                            "Morality":more,"Government Size":govsize, "Abortion":ab, "Gay Marriage":gm,
+                            "Evolution":evo, "Guidance in Life":gil, "Political Party":pp})
+    return beliefdf
+
+def create_belief_compare_chart(bdf, issue, religionlist):
+    #Update bdf for specific issue and set of religions
+    belief = pd.get_dummies(bdf[issue]).copy()
+    belief['Religion'] = bdf['Religion']
+    belief = belief.groupby('Religion').sum()
+    belief = belief.loc[religionlist, :]
+    opinions = list(belief.columns)
+    belief = belief.div(belief.sum(axis=1), axis=0) 
+    belief = belief.reset_index()
+    newbelief = belief.melt(id_vars=['Religion'], value_vars=opinions,
+        var_name=issue, value_name='Percent')
+    
+    #make chart
+    result = alt.Chart(newbelief).mark_bar().encode(
+            x=alt.X(issue),
+            y=alt.Y('Percent', scale=alt.Scale(domain=(0, 1)), axis=alt.Axis(format='%', title='Percentage')),
+            color=alt.Color(issue,scale=alt.Scale(scheme="redyellowblue")),
+            column='Religion:N',
+            tooltip=[alt.Tooltip(issue), alt.Tooltip('Percent:Q', format='.2%')]
+        ).properties(
+            title=issue
+        ).interactive()
+    return result
+
 
 def render_connection_chapter(df):
     """
@@ -446,12 +502,33 @@ def render_connection_chapter(df):
     # How Our Beliefs Shape Us
 
     some narrative
-    '''
+    '''  
+    
+    bdf = create_belief_df(df)
+
+    st.write("Select a belief or issue from the dropdown list below. Then, select one or more religions you would like to look at."
+    + " You will be able to look at the breakdown of each religion by stance and compare them to other religions.")
+    beliefselect = st.radio("Belief or Issue", ('Immigration', 'Women in Workforce', "Children Out of Wedlock", 
+                             "Religion", 'Homosexuality', 'Government Aid',"Environmental Regulations",
+                            "Morality","Government Size", "Abortion", "Gay Marriage",
+                            "Evolution", "Guidance in Life", "Political Party"))
+
+    if beliefselect != "":
+        religionselect = st.multiselect("Religion", ['Protestant', 'Roman Catholic', 'Mormon',
+                                                'Orthodox', 'Jewish', 'Muslim', 'Buddist', 'Hindu',
+                                                'Atheist', 'Agnostic', 'Nothing', 'Unitarian', 'Jehovahs Witness',
+                                                'Christian', 'Unaffiliated'])
+        if religionselect != []:
+            beliefchart = create_belief_compare_chart(bdf, beliefselect, religionselect)
+            st.write(beliefchart)
+
     # Sidebar
     st.sidebar.subheader("How Our Beliefs Shape Us")
 
-    if st.sidebar.checkbox("Show the data"):
-        st.subheader("the data")
+    if st.sidebar.checkbox("Show the data for beliefs with respect to religion as a table. Note this is by individual"):
+        st.subheader("Breakdown of Beliefs by Religion")
+        st.write("TODO add stuffystuff")
+        st.write(bdf.set_index('Religion'))
 
 
 # -----------------------------------------------------------------------------
