@@ -391,7 +391,7 @@ def render_geography_chapter(df):
     ---
     # The Geography of Belief
 
-    The first aspect of religious belief we will look at is how it is shaped by _geography_. In the United States, despite our claims to "unity", are known for the degree of diversity that exists amongst our 50 constituent states. How does religious belief vary along geographic lines?
+    The first aspect of religious belief we will look at is how it is shaped by **geography**. In the United States, despite our claims to "unity", are known for the degree of diversity that exists amongst our 50 constituent states. How does religious belief vary along geographic lines?
 
     Here we define religious to be an individual that claims to subscribe to a belief system that has some form
     of a or supernatural or higher power. The heat map indicates the percentage by state. You can hover over individual states to see the
@@ -613,7 +613,7 @@ def render_connection_chapter(df):
 
     Our beliefs do not exist in a vacuum. They both pull and are pulled by other aspects of our identities. The next two chapters will examine how our beliefs relate to one another, and how they change with time.
     
-    In this chapter, we explore religious belief and its _connection_ with other consequential beliefs that we hold. How does our religious belief relate to our stance on politics? On contentious issues like immigration policy or environmental regulations? On questions of right and wrong? Of course, we all have some intuition for how these questions are related, but are they founded in the data? This chapter allows us to examine precisely this.
+    In this chapter, we explore religious belief and its **connection** with other consequential beliefs that we hold. How does our religious belief relate to our stance on politics? On contentious issues like immigration policy or environmental regulations? On questions of right and wrong? Of course, we all have some intuition for how these questions are related, but are they founded in the data? This chapter allows us to examine precisely this.
     '''  
     
     bdf = create_belief_df(df)
@@ -680,7 +680,15 @@ def render_evolution_chapter():
     ---
     # How Our Beliefs Evolve
 
-    We need some introductory material here.
+    In the previous chapter we looked at how our religious beliefs are related to our perspectives on other, disparate topics. In this chapter, we approach the issue from a slightly different angle: how do our religious beliefs **evolve** with us? 
+
+    As we grow older, our view of the world necessarily shifts. We have new experiences, learn new truths, discard falsehoods. How do our religious beliefs fare in this process?
+
+    An important caveat here: the [2014 Pew Research Study](https://www.pewforum.org/2015/05/12/americas-changing-religious-landscape/) from which we collect our source data is not a longitudinal one - it covers a large sample of individuals at a single point in their lives. Therefore, we must note that in the visualization below we use the differing age of the respondents as a _proxy_ for the evolution of beliefs over time. However, bear in mind that the phenomena that we observe may instead be an artifact of _generational forces_ rather than strictly the result of beliefs shifting with age.
+    '''
+
+    '''
+    To interact with the graphic, select a question of interest from the dropdown list below. Once a question is selected, you can see the distribution of responses to that question for the currently-selected age. Then, you can utilize the slider to change the selected age and observe how the distribution of responses changes.
     '''
 
     # Sidebar
@@ -723,6 +731,13 @@ def render_evolution_chapter():
 
     st.write(viz)
 
+    '''
+    The sidebar has a couple of interesting options available for this visualization. You can:
+
+    - Render the original text of the question posed in the survey
+    - Render the raw data from which this graphic was generated
+    '''
+
     if show_data:
         '''
         In the table below you can explore all of the data used to generate the interactive plot above.
@@ -738,8 +753,8 @@ def count_for_label_at_year(df, label, year):
     tmp = tmp[tmp["Year"] == year]
     return tmp.iloc[0]["Count"]
 
-def get_diff_for_label(df, label):
-  return int(df[df["Religion"].str.contains(label)]["Delta"])
+def get_diff_for_label(df, label, metric):
+  return int(df[df["Religion"].str.contains(label)][metric])
 
 def preprocess_for_diff_viz(df):
     new = pd.DataFrame()
@@ -747,8 +762,9 @@ def preprocess_for_diff_viz(df):
         start = count_for_label_at_year(df, label, 0)
         stop = count_for_label_at_year(df, label, 99)
         diff = stop - start
-        new = new.append(pd.DataFrame(np.matrix([label, diff])))
-    new.columns = ["Religion", "Delta"]
+        prop = int(((stop - start) / start)*100)
+        new = new.append(pd.DataFrame(np.matrix([label, diff, prop])))
+    new.columns = ["Religion", "Delta", "Prop"]
     return new
 
 # Render the stacked area chart that illustrates growth
@@ -769,21 +785,28 @@ def render_future_area_viz(df):
         selection
     )
 
-    return future
+    st.write(future)
 
 # Render the bar chart that illustrates gain / loss for each religion
 def render_future_diff_viz(df):
     # Do some preprocessing
     pre = preprocess_for_diff_viz(df)
 
+    absolute_diff = st.sidebar.checkbox("Show Absolute Differences")
+    
     order = [label for label in pre["Religion"]]
-    order = sorted(order, key=lambda x: get_diff_for_label(pre, x))
+
+    column_label = "Delta" if absolute_diff else "Prop"
+    if absolute_diff:
+        order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Delta"))
+    else:
+        order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Prop"))
 
     # Render the chart
     chart = alt.Chart(pre).mark_bar().encode(
         x=alt.X("Religion:N", sort=order),
-        y="Delta:Q",
-        tooltip=["Delta"],
+        y=alt.Y(column_label+":Q"),
+        tooltip=[column_label],
         color=alt.condition(
             alt.datum.Delta > 0,
             alt.value("green") , # The positive color
@@ -793,7 +816,16 @@ def render_future_diff_viz(df):
         height=DEFAULT_HEIGHT
     ).interactive()
 
-    return chart
+    if absolute_diff:
+        '''
+        With 'Absolute Differences' selected, the chart below shows the total gain loss for number of religious adherents in each faith.
+        '''
+    else:
+        '''
+        In this default view, the chart below shows the gain and loss for each belief system, as a percentage relative to the current number of adherenets.
+        '''
+
+    st.write(chart)
 
 def render_future_chapter():
     """
@@ -804,17 +836,23 @@ def render_future_chapter():
     ---
     # The Shape of Our Future Beliefs 
 
-    Narrative
+    In our final chapter, we examine what the future of religious belief in the United States might look like.
     '''
 
     df = load_future_data()
     df = df.drop(columns=["Unnamed: 0"])
 
     st.sidebar.subheader("The Shape of our Future Beliefs")
-    show_data = st.sidebar.checkbox("Show Data")
 
-    st.write(render_future_area_viz(df))
-    st.write(render_future_diff_viz(df))
+    render_future_area_viz(df)
+
+    '''
+    While the visualization above concisely encodes the data on this particular question, it is somewhat difficult to determine the degree of the gain and loss for individual religious beliefs. The graphic below depicts both the relative and absolute gain and loss for each belief system, ordered from greatest loss to greatest gain.
+    '''
+
+    render_future_diff_viz(df)
+
+    show_data = st.sidebar.checkbox("Show Data")
 
     if show_data:
         '''
