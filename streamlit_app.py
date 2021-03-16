@@ -446,20 +446,83 @@ def create_belief_df(df):
         63.0, 64.0, 65.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0,
         77.0, 78.0, 79.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 88.0,
         90.0, 94.0, 96.0, 994.0, 999.0]
-    belief = {'qe1':'Religion', 'qb1a':"Immigration",'qb1b':"Women in Workforce",'qb1c': "Children Out of Wedlock",'qb2a': "Homosexuality",
-    'qb2b':"Government Aid",'qb2c':"Environmental Regulations", 'qb2d': "Morality", 'qb20':"Government Size", 'qb21':"Abortion",
-    'qb22':"Gay Marriage", 'qb30':"Evolution", 'qb31': "Guidance in Life", 'party':'Political Party'}
-    imm = {1.0: "Positive Change", 2.0:"Negative Change", 3.0:"No Change", 4.0:"Mixed Change", 9.0:"Unsure"}
-    hom = {1.0:"Accepted by Society", 2.0:"Rejected by Society", 3.0:'Both Equally', 9.0:"Unsure"}
-    govaid = {1.0:"More Harm than Good", 2.0:"More Good than Harm", 3.0:'Both Equally', 9.0:"Unsure"}
-    envr = {1.0:"Hurt the Economy", 2.0:"Worth the cost", 3.0:'Both Equally', 9.0:"Unsure"}
-    more = {1.0:"Situationally Dependent", 2.0:"Absolute Standards for Right and Wrong", 3.0:'Both Equally', 9.0:"Unsure"}
-    govsize = {1.0:"Small", 2.0:"Large", 3.0:'Depends', 9.0:"Unsure"}
-    ab = {1.0:"Legal", 2.0:"Legal in Most Cases", 3.0:'Illegal in Most Cases',4.0:"Illegal", 9.0:"Unsure"}
-    gm = {1.0:"Strongly favor", 2.0:"Favor", 3.0:'Oppose',4.0:"Strongly Oppose", 9.0:"Unsure"}
-    evo = {1.0:"Agree", 2.0:"Disagree", 9.0:"Unsure"}
-    gil = {1.0:"Religious Teachings", 2.0:"Philosphy and Reason", 3.0:'Practical Experience',4.0:"Scientific Information", 9.0:"Unsure"}
-    pp = {1.0:"Republican", 2.0:"Democrat", 3.0:'Independent',4.0:"No Preference",5.0:"Other", 9.0:"Unsure"}
+    belief = {
+        "qe1":   "Religion",
+        "qb1a":  "Immigration",
+        "qb1b":  "Women in Workforce",
+        "qb1c":  "Children Out of Wedlock",
+        "qb2a":  "Homosexuality",
+        "qb2b":  "Government Aid",
+        "qb2c":  "Environmental Regulations",
+        "qb2d":  "Morality",
+        "qb20":  "Government Size",
+        "qb21":  "Abortion",
+        "qb22":  "Gay Marriage",
+        "qb30":  "Evolution",
+        "qb31":  "Guidance in Life",
+        "party": "Political Party"}
+    
+    imm = {
+        1.0: "Positive Change",
+        2.0:"Negative Change",
+        3.0:"No Change",
+        4.0:"Mixed Change",
+        9.0:"Unsure"}
+
+    hom = {
+        1.0: "Accepted by Society",
+        2.0: "Rejected by Society",
+        3.0: "Both Equally",
+        9.0: "Unsure"}
+    govaid = {
+        1.0: "More Harm than Good",
+        2.0: "More Good than Harm",
+        3.0: "Both Equally",
+        9.0:"Unsure"}
+    envr = {
+        1.0: "Hurt the Economy",
+        2.0: "Worth the cost",
+        3.0: "Both Equally",
+        9.0:"Unsure"}
+    more = {
+        1.0: "Situationally Dependent",
+        2.0: "Absolute Standards for Right and Wrong",
+        3.0: "Both Equally",
+        9.0: "Unsure"}
+    govsize = {
+        1.0: "Small",
+        2.0: "Large",
+        3.0: "Depends",
+        9.0: "Unsure"}
+    ab = {
+        1.0: "Legal",
+        2.0: "Legal in Most Cases",
+        3.0: "Illegal in Most Cases",
+        4.0: "Illegal", 
+        9.0:"Unsure"}
+    gm = {
+        1.0: "Strongly favor",
+        2.0: "Favor",
+        3.0: "Oppose",
+        4.0: "Strongly Oppose",
+        9.0: "Unsure"}
+    evo = {
+        1.0: "Agree",
+        2.0: "Disagree",
+        9.0: "Unsure"}
+    gil = {
+        1.0: "Religious Teachings",
+        2.0: "Philosphy and Reason",
+        3.0: "Practical Experience",
+        4.0: "Scientific Information",
+        9.0: "Unsure"}
+    pp = {
+        1.0: "Republican",
+        2.0: "Democrat",
+        3.0: "Independent", 
+        4.0: "No Preference",
+        5.0: "Other", 
+        9.0: "Unsure"}
 
     #retrieve required columns, rename them, and drop unneeded rows
     beliefdf=df[['qe1', 'qb1a','qb1b','qb1c','qb2a','qb2b', 'qb2c', 'qb2d', 'qb20', 'qb21', 'qb22', 'qb30', 'qb31', 'party']].copy()
