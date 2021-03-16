@@ -52,7 +52,7 @@ religiondict = {
     99.0: "Unaffiliated"
 }
 
-statedict = {
+STATE_DICT = {
     1.0: "Alabama",
     2.0: "Alaska",
     4.0: "Arizona",
@@ -107,15 +107,61 @@ statedict = {
 }
 
 regiondict = {
-    'Northeast': ["Maine", "Massachusetts", "Rhode Island", "Connecticut", "New Hampshire", "Vermont", "New York", 
-    "Pennsylvania", "New Jersey", "Delaware", "Maryland"],
-    'Southeast': ["West Virginia", "Virginia", "Kentucky", "Tennessee", "North Carolina", "South Carolina", "Georgia",
-    "Alabama", "Mississippi", "Arkansas", "Louisiana", "Florida"],
-    'Midwest': ["Ohio", "Indiana", "Michigan", "Illinois", "Missouri", "Wisconsin", "Minnesota", "Iowa", "Kansas",
-    "Nebraska", "South Dakota", "North Dakota"],
-    'Southwest': ["Texas", "Oklahoma", "New Mexico", "Arizona"],
-    'West': ["Colorado", "Wyoming", "Montana", "Idaho", "Washington", "Oregon", "Utah", "Nevada", "California", "Alaska",
-    "Hawaii"]
+    "Northeast": [
+        "Maine",
+        "Massachusetts",
+        "Rhode Island",
+        "Connecticut",
+        "New Hampshire",
+        "Vermont",
+        "New York", 
+        "Pennsylvania",
+        "New Jersey",
+        "Delaware",
+        "Maryland"],
+    "Southeast": [
+        "West Virginia",
+        "Virginia",
+        "Kentucky",
+        "Tennessee",
+        "North Carolina",
+        "South Carolina",
+        "Georgia",
+        "Alabama",
+        "Mississippi",
+        "Arkansas",
+        "Louisiana",
+        "Florida"],
+    "Midwest": [
+        "Ohio", 
+        "Indiana", 
+        "Michigan", 
+        "Illinois", 
+        "Missouri", 
+        "Wisconsin", 
+        "Minnesota", 
+        "Iowa", 
+        "Kansas",
+        "Nebraska", 
+        "South Dakota", 
+        "North Dakota"],
+    "Southwest": [
+        "Texas", 
+        "Oklahoma", 
+        "New Mexico", 
+        "Arizona"],
+    "West": [
+        "Colorado", 
+        "Wyoming", 
+        "Montana", 
+        "Idaho", 
+        "Washington", 
+        "Oregon", 
+        "Utah", 
+        "Nevada", 
+        "California", 
+        "Alaska",
+        "Hawaii"]
 }
 
 # -----------------------------------------------------------------------------
@@ -335,7 +381,7 @@ def render_geography_chapter(df):
     '''
     
     # Set pandas for first visual
-    statereligion = prepare_states(df, religiondict, statedict)
+    statereligion = prepare_states(df, religiondict, STATE_DICT)
 
     # Render the states visualization
     st.write(render_states_viz(statereligion))
