@@ -10,7 +10,7 @@ import streamlit as st
 from vega_datasets import data
 
 # The relative path to the directory in which data is stored
-DATA_PATH = "assignment-2-05839-abby-kyle/data/"
+DATA_PATH = "data/"
 
 # -----------------------------------------------------------------------------
 # Primary Dataset
@@ -360,7 +360,7 @@ def render_states_viz(statesvreligion):
 
     uschart = uschart.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
     return uschart
 
 def stackedtablereligion(selectlist, df):
@@ -385,7 +385,7 @@ def stackedtablereligion(selectlist, df):
         ).interactive()
     stchart = stchart.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
     return stchart
 
 
@@ -609,7 +609,7 @@ def create_belief_compare_chart(bdf, issue, religionlist):
         ).interactive()
     result = result.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
     return result
 
 def render_connection_chapter(df):
@@ -749,7 +749,7 @@ def render_evolution_chapter():
 
     viz = viz.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
 
     if full_text:
         st.write("The full text of the question with which respondents were prompted is:")
@@ -811,11 +811,11 @@ def render_future_area_viz(df):
     ).add_selection(
         selection
     ).properties(
-        title="The Change in Religious Landscape Overtime"
+        title="The Change in Religious Landscape Over Time"
     )
     future = future.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
 
     st.write(future)
 
@@ -831,10 +831,10 @@ def render_future_diff_viz(df):
     column_label = "Delta" if absolute_diff else "Prop"
     if absolute_diff:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Delta"))
-        charttitle = "Religious Adherance Gains and Loses: Absolute"
+        charttitle = "Religious Adherance Gains and Loses (Absolute)"
     else:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Prop"))
-        charttitle = "Religious Adherance Gains and Loses: Percentage"
+        charttitle = "Religious Adherance Gains and Loses (Percentage)"
 
     # Render the chart
     chart = alt.Chart(pre).mark_bar().encode(
@@ -854,7 +854,7 @@ def render_future_diff_viz(df):
     )
     chart = chart.configure_title(
         fontSize=30,
-        font="Times New Roman")
+        font="IBM Plex Sans")
 
     if absolute_diff:
         '''
