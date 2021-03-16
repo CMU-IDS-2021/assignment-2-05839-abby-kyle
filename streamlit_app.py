@@ -624,7 +624,7 @@ def render_connection_chapter(df):
     Our beliefs do not exist in a vacuum. They both pull and are pulled by other aspects of our identities. The next two chapters will examine how our beliefs relate to one another, and how they change with time.
     
     In this chapter, we explore religious belief and its **connection** with other consequential beliefs that we hold. How does our religious belief relate to our stance on politics? On contentious issues like immigration policy or environmental regulations? On questions of right and wrong? Of course, we all have some intuition for how these questions are related, but are they founded in the data? This chapter allows us to examine precisely this.
-    We acknowledge that other factors outside religion can impact how an individual develops their belief system. However, it is interesting to see how a difference in religious view result in widely different opinions on various moral and soial issues.
+    We acknowledge that other factors outside religion can impact how an individual develops their belief system. However, it is interesting to see how a difference in religious view can result in widely different opinions on various moral and soial issues.
     '''  
     
     bdf = create_belief_df(df)
