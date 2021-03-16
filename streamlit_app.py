@@ -631,11 +631,9 @@ def render_connection_chapter(df):
     
     bdf = create_belief_df(df)
 
-    st.write("Select a belief or issue from the list below. Then, select one or more religions you would like to look at."
-    + " You will be able to look at the breakdown of each religion by stance and compare them to other religions. You will "
-    + "find some interesting distributions especially if you compare various religions with atheism. For example, a much "
-    + "lower proportion of respondents who claim to be Atheist are against abortion when compared to Roman Catholic, Muslim, and "
-    + "Jehovah's Witness respondents")
+    '''
+    Select a belief or issue from the list below. Then, select one or more religions you would like to look at. You will be able to look at the breakdown of each religion by stance and compare them to other religions. You will find some interesting distributions especially if you compare various religions with atheism. For example, a much lower proportion of respondents who claim to be Atheist are against abortion when compared to Roman Catholic, Muslim, and Jehovah's Witness respondents.
+    '''
     beliefselect = st.radio(
         "Belief or Issue", (
             "Immigration", 
