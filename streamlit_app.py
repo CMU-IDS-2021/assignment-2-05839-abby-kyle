@@ -403,7 +403,7 @@ def render_geography_chapter(df):
     Here we define religious to be an individual that claims to subscribe to a belief system that has some form
     of a or supernatural or higher power. The heat map indicates the percentage by state. You can hover over individual states to see the
     actual values as a percentage as well as the percentage in that state that subscribe to a subset of major religions. For more options, navigate to
-    the sidebar under "The Geography of Belief".
+    the sidebar under "The Geography of Belief". Prehaps unsurprisingly, states in the South and Midwest tend to be more religious.
     '''
     
     # Set pandas for first visual
@@ -434,7 +434,8 @@ def render_geography_chapter(df):
         + "example, if you click on 'Mormon' you will find that"
         + " Utah and the surrounding states have the highest "
         + "percent of Mormons with respect to the other "
-        + "religions. All values are percentages.")
+        + "religions. Here it is also easier to see visually that the majority of individuals in most states"
+        + " claim to be Protestant. All values are percentages.")
         statedf = statereligion.drop(
             columns = ["Percent Religious", "id"]).set_index("State").apply(lambda x: x*100)
         st.write(statedf)
@@ -632,13 +633,15 @@ def render_connection_chapter(df):
     bdf = create_belief_df(df)
 
     st.write("Select a belief or issue from the list below. Then, select one or more religions you would like to look at."
-    + " You will be able to look at the breakdown of each religion by stance and compare them to other religions.")
+    + " You will be able to look at the breakdown of each religion by stance and compare them to other religions. You will "
+    + "find some interesting distributions especially if you compare various religions with atheism. For example, a much "
+    + "lower proportion of respondents who claim to be Atheist are against abortion when compared to Roman Catholic, Muslim, and "
+    + "Jehovah's Witness respondents")
     beliefselect = st.radio(
         "Belief or Issue", (
             "Immigration", 
             "Women in Workforce", 
-            "Children Out of Wedlock", 
-            "Religion", 
+            "Children Out of Wedlock",  
             "Homosexuality",
             "Government Aid",
             "Environmental Regulations",
@@ -664,7 +667,7 @@ def render_connection_chapter(df):
             "Agnostic",
             "Nothing",
             "Unitarian",
-            "Jehovahs Witness",
+            "Jehovah's Witness",
             "Christian",
             "Unaffiliated"])
         if religionselect != []:
