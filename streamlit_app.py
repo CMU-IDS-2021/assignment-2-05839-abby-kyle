@@ -813,6 +813,10 @@ def render_future_area_viz(df):
     # Make a selection for interactive legend
     selection = alt.selection_multi(fields=["Religion"], bind="legend")
 
+    '''
+    In the visualization below, we plot the total number of adherents to each religious tradition, normalized to the total population projected for the relevant timestep. You can select individual options in the legend to isolate a single religion.
+    '''
+
     # Make the chart
     future = alt.Chart(df).mark_area().encode(
         x="Year:Q",
@@ -920,7 +924,13 @@ def render_future_chapter():
 
     if methodology:
         '''
-        Methodology here.
+        ### Methodology
+
+        The methodology used to generate the visualizations in this section requires further explanation. It begins with the computation of the transition matrix of religious 'pull', based on the the results of the 2007 and 2014 Pew Religious Landscape Surveys. This analysis was performed by Leah Libresco from FiveThirtyEight; you can read a more complete description of her methodology for doing so in her [article on the subject](https://fivethirtyeight.com/features/evangelical-protestants-are-the-biggest-winners-when-people-change-faiths/).
+
+        With this transition matrix in hand, we then compute the proportion of adherents to each religious tradition in successive timesteps by applying the transition matrix to the initial proportions. This process is applied iteratively until the desired time horizon is reached. Finally, we scale these proportions by the projected United States population in order to compute the total number of adherents to each religious system at each timestep.
+
+        We make a couple of simplifying assumptions in this analysis. First, iteratively applying the transition matrix out across long time horizons introduces the implicit assumption that the current rates of religious conversion remain constant. Of course, this need not be the case. Furthermore, our population analysis is based on a very simple model of projected United States population that assumes a growth rate commensurate with that observed in the last eighty years. It is entirely possible that the population growth rate changes (likely slowing) which would change the numbers observed in the absolute breakdown.
         '''
 
 # -----------------------------------------------------------------------------
