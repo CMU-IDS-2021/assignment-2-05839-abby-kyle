@@ -46,7 +46,7 @@ In this interactive visualization we seek to discover the ways in which our reli
 
 **How Our Beliefs Evolve**
 
-In this interactive visualization we seek to discover the manner in which religious faith, as measured by the various metrics and questions present in the Pew survey, change over the various stages of human life. Stages here means the age of the respondent. Challenging religious questions were asked and thsi was tied to the respondent's age. The result is a visualization where the user can see how opinions and the proportion of people who hold those opinions change as the individual ages. It may also provide insight about the change of belief systems across generational lines. 
+In this interactive visualization we seek to discover the manner in which religious faith, as measured by the various metrics and questions present in the Pew survey, change over the various stages of human life. Stages here means the age of the respondent. Challenging religious questions were asked and this was tied to the respondent's age. The result is a visualization where the user can see how opinions and the proportion of people who hold those opinions change as the individual ages. It may also provide insight about the change of belief systems across generational lines. 
 
 **The Shape of our Future Beliefs**
 
