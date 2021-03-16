@@ -12,49 +12,27 @@ from vega_datasets import data
 # The relative path to the directory in which data is stored
 DATA_PATH = "data/"
 
+# -----------------------------------------------------------------------------
+# Primary Dataset
+# -----------------------------------------------------------------------------
+
 # The relative path to the primary dataset
 PRIMARY_DATA_PATH  = DATA_PATH + "data.sav"
-# The relative path to the patterns dataset
-FUTURE_DATA_PATH = DATA_PATH + "future.csv"
-
-# For the datasets used in the 'evolution' chapter,
-# we load a dataset for each question of interst
-EVOLUTION_BELIEVE_GOD_PATH = DATA_PATH + "believe_god.csv"
-
-# Map the question text to the path to the data for that question
-EVOLUTION_QUESTIONS = {
-    "Do You Believe in God?": EVOLUTION_BELIEVE_GOD_PATH
-}
-
-# The minimum and maximum ages in the dataset
-MIN_AGE = 24
-MAX_AGE = 90
 
 # The default height for our visualizations
 DEFAULT_WIDTH = 800
+
 # The default height for our visualizations
 DEFAULT_HEIGHT = 550
 
-# The df column headers for patterns dataset
-FUTURE_COLUMN_HEADERS = [
-    "Buddhist", 
-    "Catholic", 
-    "Evangel Prot", 
-    "Hindu", 
-    "Hist Black Prot", 
-    "Jehovahs Witness", 
-    "Jewish", 
-    "Mainline Prot", 
-    "Mormon", 
-    "Muslim", 
-    "Orthodox Christian", 
-    "Unaffiliated"]
+# Colors from Vega color scheme for charts that should not be scaled
+COLOR_SCHEME_BLUE = "#90c1dc"
 
-# The df column headers after we transform
-FUTURE_TRANSFORMED_COLUMN_HEADERS = [
-    "Year",
-    "Religion",
-    "Proportion"]
+st.set_page_config(layout="wide")
+
+# -----------------------------------------------------------------------------
+# Geography-Specific
+# -----------------------------------------------------------------------------
 
 religiondict = {
     1.0: "Protestant",
@@ -140,7 +118,52 @@ regiondict = {
     "Hawaii"]
 }
 
-st.set_page_config(layout="wide")
+# -----------------------------------------------------------------------------
+# Evolution-Specific
+# -----------------------------------------------------------------------------
+
+# For the datasets used in the 'evolution' chapter,
+# we load a dataset for each question of interest
+EVOLUTION_BELIEVE_GOD_PATH = DATA_PATH + "believe_god.csv"
+EVOLUTION_BELIEVE_HEAVEN_PATH = DATA_PATH + "believe_heaven.csv"
+
+# Map the question text to the path to the data for that question
+EVOLUTION_QUESTIONS = {
+    "Do You Believe in God?": EVOLUTION_BELIEVE_GOD_PATH,
+    "Do You Believe in Heaven?": EVOLUTION_BELIEVE_HEAVEN_PATH
+}
+
+# The minimum and maximum ages in the dataset
+MIN_AGE = 24
+MAX_AGE = 90
+
+# -----------------------------------------------------------------------------
+# Future-Specific
+# -----------------------------------------------------------------------------
+
+# The relative path to the patterns dataset
+FUTURE_DATA_PATH = DATA_PATH + "future.csv"
+
+# The df column headers for patterns dataset
+FUTURE_COLUMN_HEADERS = [
+    "Buddhist", 
+    "Catholic", 
+    "Evangel Prot", 
+    "Hindu", 
+    "Hist Black Prot", 
+    "Jehovahs Witness", 
+    "Jewish", 
+    "Mainline Prot", 
+    "Mormon", 
+    "Muslim", 
+    "Orthodox Christian", 
+    "Unaffiliated"]
+
+# The df column headers after we transform
+FUTURE_TRANSFORMED_COLUMN_HEADERS = [
+    "Year",
+    "Religion",
+    "Proportion"]
 
 # -----------------------------------------------------------------------------
 # Data Loading
@@ -403,7 +426,7 @@ def render_evolution_chapter():
         plot = plot.append(pd.DataFrame(np.matrix([c, tmp.iloc[0][c]])))    
     plot.columns = ["Response", "Proportion"]
 
-    viz = alt.Chart(plot).mark_bar().encode(
+    viz = alt.Chart(plot).mark_bar(color=COLOR_SCHEME_BLUE).encode(
         x="Response:N",
         y=alt.Y("Proportion:Q", scale=alt.Scale(domain=[0.0, 1.0]))
     ).properties(

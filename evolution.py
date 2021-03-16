@@ -60,6 +60,24 @@ BELIEVE_IN_GOD_RESPONSE_MAP = {
 }
 
 # -----------------------------------------------------------------------------
+# Believe in Heaven
+# -----------------------------------------------------------------------------
+
+# The output filename for the processed data
+BELIEVE_IN_HEAVEN_FILENAME = "believe_heaven.csv"
+
+# The identifier for the question in the input dataframe
+BELIEVE_IN_HEAVEN_Q = "qg5"
+
+# Map response label -> response text
+BELIEVE_IN_HEAVEN_RESPONSE_MAP = {
+    1.0: "Yes",
+    2.0: "No",
+    9.0: "Don't Know",
+    3.0: "Other"
+}
+
+# -----------------------------------------------------------------------------
 # Generic Processor
 # -----------------------------------------------------------------------------
 
@@ -132,8 +150,20 @@ def processor(df, question, response_map):
 # -----------------------------------------------------------------------------
 
 def process_believe_god(df):
+    print("[+] Processing 'believe in god'...")
     prepped = processor(df, BELIEVE_IN_GOD_Q, BELIEVE_IN_GOD_RESPONSE_MAP)
     prepped.to_csv(DATA_PATH + BELIEVE_IN_GOD_FILENAME)
+    print("[+] Done!")
+
+# -----------------------------------------------------------------------------
+# Believe in Heaven
+# -----------------------------------------------------------------------------
+
+def process_believe_heaven(df):
+    print("[+] Processing 'believe in heaven'...")
+    prepped = processor(df, BELIEVE_IN_HEAVEN_Q, BELIEVE_IN_HEAVEN_RESPONSE_MAP)
+    prepped.to_csv(DATA_PATH + BELIEVE_IN_HEAVEN_FILENAME)
+    print("[+] Done!")
 
 # -----------------------------------------------------------------------------
 # Main
@@ -142,6 +172,7 @@ def process_believe_god(df):
 def main():
     df = pd.read_spss(DATA_FILE, convert_categoricals=False)
     process_believe_god(df)
+    process_believe_heaven(df)
 
 # -----------------------------------------------------------------------------
 # Script Entry Point
