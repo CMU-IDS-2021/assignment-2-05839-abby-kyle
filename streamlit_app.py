@@ -474,16 +474,19 @@ def create_belief_df(df):
         2.0: "Rejected by Society",
         3.0: "Both Equally",
         9.0: "Unsure"}
+
     govaid = {
         1.0: "More Harm than Good",
         2.0: "More Good than Harm",
         3.0: "Both Equally",
         9.0:"Unsure"}
+
     envr = {
         1.0: "Hurt the Economy",
         2.0: "Worth the cost",
         3.0: "Both Equally",
         9.0:"Unsure"}
+
     more = {
         1.0: "Situationally Dependent",
         2.0: "Absolute Standards for Right and Wrong",
@@ -494,6 +497,7 @@ def create_belief_df(df):
         2.0: "Large",
         3.0: "Depends",
         9.0: "Unsure"}
+
     ab = {
         1.0: "Legal",
         2.0: "Legal in Most Cases",
@@ -506,16 +510,19 @@ def create_belief_df(df):
         3.0: "Oppose",
         4.0: "Strongly Oppose",
         9.0: "Unsure"}
+
     evo = {
         1.0: "Agree",
         2.0: "Disagree",
         9.0: "Unsure"}
+
     gil = {
         1.0: "Religious Teachings",
         2.0: "Philosphy and Reason",
         3.0: "Practical Experience",
         4.0: "Scientific Information",
         9.0: "Unsure"}
+        
     pp = {
         1.0: "Republican",
         2.0: "Democrat",
