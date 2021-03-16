@@ -25,7 +25,15 @@ _Describe the question that you are enabling a user to answer. The question shou
 
 We stylize our application as an exploration of the "shape of belief." Obviously, this is a vague title, but we adopt it in order to reflect the broadness of the topic. As is stated in the introduction section of the application itself, religious belief is a complex topic that has many different dimensions. It would be naive to believe that we can capture the entirety of this complexity in a single application, much less one as limited as this one.
 
-The goal of our project, therefore, is to provide a concise description of the data available in Pew's 2014 Religious Landscape Survey. From a cursory examination of the dataset, it is difficult to extract many conclusions regarding the high-level structure of religious belief in the United States. The dataset is wide (nearly 200 columns) and the individual columns need to be mapped to the questions to which they correspond. Beyond the preprocessing necessary to analyze the dataset, we construct several interactive visualizations with accompanying narrative elements to allow users to quickly achieve an understanding of Pew's results.
+The goal of our project, therefore, is to provide a concise description of the data available in Pew's 2014 Religious Landscape Survey. From a cursory examination of the dataset, it is difficult to extract many conclusions regarding the high-level structure of religious belief in the United States. The dataset is wide (nearly 200 columns) and the individual columns must be manually mapped to the questions to which they correspond in order to recover any meaningful information. Beyond the preprocessing necessary to analyze the dataset, we construct several interactive visualizations with accompanying narrative elements to allow users to quickly achieve an understanding of Pew's results.
+
+The question we intend to answer is: _how do American's religious beliefs interact with other aspects of their identity?_ We explore this question along three primary dimensions:
+
+- _Geography_: How does one's physical location influence their beliefs?
+- _Correlation_: How do one's beliefs influence their perspective on seemingly disparate topics? Which way does causation swing?
+- _Time_: How do one's beliefs change over time? How do our collective beliefs evolve at the societal level?
+
+The design rationale underlying the specific sections devoted to each of these particular themes is described below.
 
 ## Design
 

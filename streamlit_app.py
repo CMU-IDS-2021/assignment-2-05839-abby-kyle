@@ -234,6 +234,8 @@ FUTURE_TRANSFORMED_COLUMN_HEADERS = [
 def load_primary_data():
     return pd.read_spss(PRIMARY_DATA_PATH, convert_categoricals=False)
 
+# No caching because streamlit cannot recognize that the
+# underlying dataframe has changed if it is cached :(
 def load_evolution_data():
     frames = {}
     for question, path in EVOLUTION_QUESTIONS.items():
