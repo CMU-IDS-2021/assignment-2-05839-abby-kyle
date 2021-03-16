@@ -514,16 +514,40 @@ def render_connection_chapter(df):
 
     st.write("Select a belief or issue from the dropdown list below. Then, select one or more religions you would like to look at."
     + " You will be able to look at the breakdown of each religion by stance and compare them to other religions.")
-    beliefselect = st.radio("Belief or Issue", ('Immigration', 'Women in Workforce', "Children Out of Wedlock", 
-                             "Religion", 'Homosexuality', 'Government Aid',"Environmental Regulations",
-                            "Morality","Government Size", "Abortion", "Gay Marriage",
-                            "Evolution", "Guidance in Life", "Political Party"))
+    beliefselect = st.radio(
+        "Belief or Issue", (
+            "Immigration", 
+            "Women in Workforce", 
+            "Children Out of Wedlock", 
+            "Religion", 
+            'Homosexuality',
+            "Government Aid",
+            "Environmental Regulations",
+            "Morality",
+            "Government Size", 
+            "Abortion", 
+            "Gay Marriage",
+            "Evolution", 
+            "Guidance in Life", 
+            "Political Party"))
 
     if beliefselect != "":
-        religionselect = st.multiselect("Religion", ['Protestant', 'Roman Catholic', 'Mormon',
-                                                'Orthodox', 'Jewish', 'Muslim', 'Buddist', 'Hindu',
-                                                'Atheist', 'Agnostic', 'Nothing', 'Unitarian', 'Jehovahs Witness',
-                                                'Christian', 'Unaffiliated'])
+        religionselect = st.multiselect("Religion", [
+            "Protestant", 
+            "Roman Catholic", 
+            "Mormon",
+            "Orthodox", 
+            "Jewish", 
+            "Muslim",
+            "Buddist", 
+            "Hindu",
+            "Atheist", 
+            "Agnostic",
+            "Nothing",
+            "Unitarian",
+            "Jehovahs Witness",
+            "Christian",
+            "Unaffiliated"])
         if religionselect != []:
             beliefchart = create_belief_compare_chart(bdf, beliefselect, religionselect)
             st.write(beliefchart)
