@@ -426,16 +426,12 @@ def render_geography_chapter(df):
 
     # Selectively render the data for the states visualization
     if st.sidebar.checkbox("Show the religious data for each state as a table"):
-        st.subheader( "Breakdown of States and their Religious Make-up")
-        st.write("By clicking on the column titles, you can "
-        + "discover which religions are most prominent in " 
-        + "different states and find states and regions that "
-        + "have larger populations of certain sects. For "
-        + "example, if you click on 'Mormon' you will find that"
-        + " Utah and the surrounding states have the highest "
-        + "percent of Mormons with respect to the other "
-        + "religions. Here it is also easier to see visually that the majority of individuals in most states"
-        + " claim to be Protestant. All values are percentages.")
+        '''
+        ### Breakdown of States and their Religious Make-up
+
+        By clicking on the column titles, you can discover which religions are most prominent in different states and find states and regions that have larger populations of certain sects. For example, if you click on 'Mormon' you will find that Utah and the surrounding states have the highest percent of Mormons with respect to the other religions. Here it is also easier to see visually that the majority of individuals in most states claim to be Protestant. All values are percentages.
+        '''
+
         statedf = statereligion.drop(
             columns = ["Percent Religious", "id"]).set_index("State").apply(lambda x: x*100)
         st.write(statedf)
@@ -444,9 +440,12 @@ def render_geography_chapter(df):
         st.sidebar.write("Compare the religious breakdowns for each state. You can select multiple options.")
         stateselect = st.sidebar.multiselect("State", statereligion, key='State')
         if stateselect != []:
-            st.subheader("Compare States")
-            st.write("Here you can visually compare the different religions in each state as well as compare states against each other."
-            + " Remeber you can select multiple states at the same time!")
+            '''
+            ### Compare States
+
+            Here you can visually compare the different religions in each state as well as compare states against each other. Remember you can select multiple states at the same time!
+            '''
+
             stateselectchart = stackedtablereligion(stateselect, statereligion)
             st.write(stateselectchart)
 
@@ -684,11 +683,13 @@ def render_connection_chapter(df):
     st.sidebar.subheader("How Our Beliefs Shape Us")
 
     if st.sidebar.checkbox("Show the data for beliefs with respect to religion as a table."):
-        st.subheader("Breakdown of Beliefs by Religion")
-        st.write("Here you can look at individual respondents who answered a series of questions about the issues shown above. "
-        +"Individuals are characterized by their claimed religious beliefs.")
-        st.write(bdf.set_index('Religion'))
+        '''
+        ### Breakdown of Beliefs by Religion
 
+        Here you can look at individual respondents who answered a series of questions about the issues shown above. Individuals are characterized by their claimed religious beliefs.
+        '''
+
+        st.write(bdf.set_index("Religion"))
 
 # -----------------------------------------------------------------------------
 # Chapter: Evolution
@@ -718,6 +719,7 @@ def render_evolution_chapter():
     st.sidebar.subheader("How Our Beliefs Evolve")
     full_text = st.sidebar.checkbox("Show Full Question Text")
     show_data = st.sidebar.checkbox("Show the Data")
+    methodology = st.sidebar.checkbox("Methodology", key="EvolutionMethodology")
 
     # Load a map from question -> dataframe
     frames = load_evolution_data()
@@ -746,8 +748,6 @@ def render_evolution_chapter():
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
-    ).properties(
-        title=option
     ).interactive()
 
     viz = viz.configure_title(
@@ -755,7 +755,11 @@ def render_evolution_chapter():
         font="IBM Plex Sans")
 
     if full_text:
-        st.write("The full text of the question with which respondents were prompted is:")
+        '''
+        ### Full Question Text
+
+        The full text of the question with which respondents were prompted is
+        '''
         st.write("'" + EVOLUTION_FULL_QUESTIONS[option] + "'")
 
     st.write(viz)
@@ -765,13 +769,23 @@ def render_evolution_chapter():
 
     - Render the original text of the question posed in the survey
     - Render the raw data from which this graphic was generated
+    - View a more in-depth description of the methodology for this analysis
     '''
 
     if show_data:
         '''
+        ### Raw Data
+
         In the table below you can explore all of the data used to generate the interactive plot above.
         '''
         st.write(df)
+
+    if methodology:
+        '''
+        ### Methodology
+
+        This visualization requires a bit more explanation in terms of the methodology used to generate it. The 2014 Pew Religious Landscape Survey organizes respondents into discrete categories based on their age. For instance, there is one category for all respondents under the age of 24, one category for respondents between the ages of 25 and 30, etc. In order to construct the chart above with a continuous axis for respondent age, we apply interpolation to the available data points. We assume a simple linear model relating the response for category _N_ with the response for category _N + 1_, and compute the value at each of the intervening years based on this interpolation.
+        '''
 
 # -----------------------------------------------------------------------------
 # Chapter: Future
@@ -814,7 +828,7 @@ def render_future_area_viz(df):
     ).add_selection(
         selection
     ).properties(
-        title="The Change in Religious Landscape Over Time"
+        title="The Changing in Religious Landscape"
     )
     future = future.configure_title(
         fontSize=30,
@@ -834,10 +848,10 @@ def render_future_diff_viz(df):
     column_label = "Delta" if absolute_diff else "Prop"
     if absolute_diff:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Delta"))
-        charttitle = "Religious Adherance Gains and Loses (Absolute)"
+        charttitle = "Religious Adherence Gains and Loses (Absolute)"
     else:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Prop"))
-        charttitle = "Religious Adherance Gains and Loses (Percentage)"
+        charttitle = "Religious Adherence Gains and Loses (Percentage)"
 
     # Render the chart
     chart = alt.Chart(pre).mark_bar().encode(
@@ -879,7 +893,9 @@ def render_future_chapter():
     ---
     # The Shape of Our Future Beliefs 
 
-    In our final chapter, we examine what the future of religious belief in the United States might look like.
+    In our final chapter, we examine what the **future** of religious belief in the United States might look like. 
+    
+    As was mentioned in the introduction, religious belief is a complex and multifaceted topic, and accordingly it is difficult to predict with much accuracy. Our analysis here builds on [prior work](https://fivethirtyeight.com/features/evangelical-protestants-are-the-biggest-winners-when-people-change-faiths/) by journalist [Leah Libresco](https://fivethirtyeight.com/contributors/leah-libresco/). In brief, Libresco combines the results of the 2007 iteration of the Pew Religions Survey with the Results from 2014 to compute a transition matrix that encodes the rate at which adherents join and leave belief systems. We then use this transition matrix to make projections on the number of people with self-professed membership in each faith at points in the future. You can read a more comprehensive description of the methodology by selecting the 'Methodology' box in the sidebar. 
     '''
 
     df = load_future_data()
@@ -896,12 +912,18 @@ def render_future_chapter():
     render_future_diff_viz(df)
 
     show_data = st.sidebar.checkbox("Show Data")
+    methodology = st.sidebar.checkbox("Methodology", key="FutureMethodology")
 
     if show_data:
         '''
         In the table below you can explore all of the data used to generate the interactive plot above.
         '''
         st.write(df)
+
+    if methodology:
+        '''
+        Methodology here.
+        '''
 
 # -----------------------------------------------------------------------------
 # Main
