@@ -800,11 +800,11 @@ def render_future_area_viz(df):
 
     # Make the chart
     future = alt.Chart(df).mark_area().encode(
-        x="Year:T",
+        x="Year:Q",
         y=alt.Y("Count:Q", stack="normalize", axis=alt.Axis(labels=False)),
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
         color=alt.Color('Religion:N',scale=alt.Scale(scheme="redyellowblue")),
-        tooltip=["Religion:N", "Year:T", "Count:Q"],
+        tooltip=["Religion:N", "Count:Q"],
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
@@ -831,8 +831,10 @@ def render_future_diff_viz(df):
     column_label = "Delta" if absolute_diff else "Prop"
     if absolute_diff:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Delta"))
+        charttitle = "Religious Adherance Gains and Loses: Absolute"
     else:
         order = sorted(order, key=lambda x: get_diff_for_label(pre, x, "Prop"))
+        charttitle = "Religious Adherance Gains and Loses: Percentage"
 
     # Render the chart
     chart = alt.Chart(pre).mark_bar().encode(
@@ -841,12 +843,18 @@ def render_future_diff_viz(df):
         tooltip=[column_label],
         color=alt.condition(
             alt.datum.Delta > 0,
-            alt.value("green") , # The positive color
+            alt.value(COLOR_SCHEME_BLUE) , # The positive color
             alt.value("red"))    # The negative color
     ).properties(
         width=DEFAULT_WIDTH,
         height=DEFAULT_HEIGHT
-    ).interactive()
+    ).interactive(
+    ).properties(
+        title=charttitle
+    )
+    chart = chart.configure_title(
+        fontSize=30,
+        font="Times New Roman")
 
     if absolute_diff:
         '''
