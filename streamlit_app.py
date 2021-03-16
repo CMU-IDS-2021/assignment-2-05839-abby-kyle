@@ -34,7 +34,7 @@ st.set_page_config(layout="wide")
 # Geography-Specific
 # -----------------------------------------------------------------------------
 
-religiondict = {
+RELIGION_DICT = {
     1.0: "Protestant",
     2.0: "Roman Catholic",
     3.0: "Mormon",
@@ -381,7 +381,7 @@ def render_geography_chapter(df):
     '''
     
     # Set pandas for first visual
-    statereligion = prepare_states(df, religiondict, STATE_DICT)
+    statereligion = prepare_states(df, STATE_DICT, STATE_DICT)
 
     # Render the states visualization
     st.write(render_states_viz(statereligion))
